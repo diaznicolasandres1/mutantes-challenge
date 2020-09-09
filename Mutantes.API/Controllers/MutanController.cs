@@ -18,12 +18,18 @@ namespace Mutantes.API.Controllers
         {
             _dnaAnalyzerService = dnaAnalyzerService;
         }
-        public ActionResult Index(DnaDto dnaRequest)
-        {
 
+
+        [HttpPost]
+        public ActionResult Post([FromBody]DnaDto dnaRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             var dnaEntitie = new DnaEntitie
             {
-                Dna = dnaRequest.Dna
+                Dna = dnaRequest.dna
             };
 
 
