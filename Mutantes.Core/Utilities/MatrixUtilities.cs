@@ -19,7 +19,7 @@ namespace Mutantes.Core.Utilities
         {
             if (dna == null)
             {
-                return null;
+                throw new NullDnaParameterException();
             }
 
             var matrixLength = dna.Length;

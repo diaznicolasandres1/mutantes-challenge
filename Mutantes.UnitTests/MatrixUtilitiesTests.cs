@@ -18,26 +18,35 @@ namespace Mutantes.UnitTests
             utilites.getMatrixFromList(dnaList);
 
         }
-        [TestMethod]    
-        public void Test002TratarDeConvetirUnaMatrizNulaRetornaNulo()
+        [TestMethod]   
+        [ExpectedException(typeof(NullDnaParameterException))]
+        public void Test002TratarDeConvetirUnaMatrizNulaRetornaExcepcion()
         {
             string[] dnaList = null;
             var convertedMatrix = utilites.getMatrixFromList(dnaList);
-            Assert.AreEqual(null, convertedMatrix);
+            
 
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCharacterInListException))]
+        public void Test003TratarDeConvertirUnaListaConCaracterInvalidoLanzaInvalidCharacterInListException()
+        {
+            string[] dnaList = { "ATGCGA", "CBGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCNCTG" };
+            utilites.getMatrixFromList(dnaList);
         }
 
 
         [TestMethod]
         [ExpectedException(typeof(InvalidCharacterInListException))]
-        public void Test003TratarDeConvetirUnaMatrizConCaracteresInvalidosLanzaNonSquareMatrixException()
+        public void Test004TratarDeConvetirUnaMatrizConCaracteresInvalidosLanzaNonSquareMatrixException()
         {
             string[] dnaList = { "ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCNCTG" };           
             utilites.getMatrixFromList(dnaList);
         }
 
         [TestMethod]
-        public void Test004ConvertirUnaMatrizCuadradaYCaracteresValidosFuncionaCorrectamente()
+        public void Test005ConvertirUnaMatrizCuadradaYCaFuncionaCorrectamente()
         {
             string[] dnaList = { "ATG", "CAG", "TTA"};
             char[,] dnaMatrix= { { 'A', 'T', 'G' }, { 'C', 'A', 'G' }, { 'T', 'T', 'A' } };

@@ -7,5 +7,6 @@ namespace Mutantes.Core.Interfaces
     public interface IMatrixUtilities
     {
         public char[,] getMatrixFromList(string[] dna);
+
     }
 }
