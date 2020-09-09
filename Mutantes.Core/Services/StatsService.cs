@@ -4,10 +4,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Mutantes.Core.Entities;
 using Mutantes.Core.Interfaces;
-using Mutantes.Infraestructura.Repositories;
-namespace Mutantes.Infraestructura.Repositories
+
+namespace Mutantes.Core.Services
 {
-    public class StatsRepository : IStatsRepository
+    public class StatsService : IStatsService
+
     {
 
         public async Task<Stats> GetStats()

@@ -13,7 +13,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Mutantes.Core\Mutantes.Core.csproj" />
-    <ProjectReference Include="..\Mutantes.Infraestructura\Mutantes.Infraestructura.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

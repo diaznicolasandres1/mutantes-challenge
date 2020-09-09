@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mutantes.Core.Interfaces
 {
-    public interface IStatsRepository
+    public interface IStatsService
     {
         public  Task<Stats> GetStats();
     }

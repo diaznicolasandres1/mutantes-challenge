@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mutantes.API", "..\Mutantes\Mutantes.API\Mutantes.API.csproj", "{1DC6483C-2AD0-4E23-B7F3-DDA755AC02D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mutantes.API", "Mutantes.API\Mutantes.API.csproj", "{1DC6483C-2AD0-4E23-B7F3-DDA755AC02D7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8DD11320-DCA9-44D2-AC1D-A039241C08A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mutantes.Core", "..\Mutantes\Mutantes.Core\Mutantes.Core.csproj", "{1EE028A5-5C4A-4897-9F27-4BE09998813D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mutantes.Core", "Mutantes.Core\Mutantes.Core.csproj", "{1EE028A5-5C4A-4897-9F27-4BE09998813D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mutantes.Infraestructura", "..\Mutantes\Mutantes.Infraestructura\Mutantes.Infraestructura.csproj", "{EAFDD72D-57D8-44C1-AD6F-A867DE846AFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mutantes.Infraestructura", "Mutantes.Infraestructura\Mutantes.Infraestructura.csproj", "{EAFDD72D-57D8-44C1-AD6F-A867DE846AFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mutantes.UnitTests", "Mutantes.UnitTests\Mutantes.UnitTests.csproj", "{1B9C869B-39AC-4CAE-8AE7-F5295514F42A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,9 +31,16 @@ Global
 		{EAFDD72D-57D8-44C1-AD6F-A867DE846AFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAFDD72D-57D8-44C1-AD6F-A867DE846AFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAFDD72D-57D8-44C1-AD6F-A867DE846AFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B9C869B-39AC-4CAE-8AE7-F5295514F42A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B9C869B-39AC-4CAE-8AE7-F5295514F42A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B9C869B-39AC-4CAE-8AE7-F5295514F42A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B9C869B-39AC-4CAE-8AE7-F5295514F42A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1B9C869B-39AC-4CAE-8AE7-F5295514F42A} = {8DD11320-DCA9-44D2-AC1D-A039241C08A6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {00694717-2A78-4E46-8898-F121CF4DA8CF}
