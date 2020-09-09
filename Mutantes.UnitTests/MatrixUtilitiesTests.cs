@@ -46,7 +46,7 @@ namespace Mutantes.UnitTests
         }
 
         [TestMethod]
-        public void Test005ConvertirUnaMatrizCuadradaYCaFuncionaCorrectamente()
+        public void Test005ConvertirUnaMatrizCuadradaYCaracteresValidosFuncionaCorrectamente()
         {
             string[] dnaList = { "ATG", "CAG", "TTA"};
             char[,] dnaMatrix= { { 'A', 'T', 'G' }, { 'C', 'A', 'G' }, { 'T', 'T', 'A' } };

@@ -1,8 +1,10 @@
-﻿using Mutantes.Core.Exceptions;
+﻿using Mutantes.Core.Entities;
+using Mutantes.Core.Exceptions;
 using Mutantes.Core.Interfaces;
 using Mutantes.Core.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Mutantes.Core.Services
@@ -21,13 +23,18 @@ namespace Mutantes.Core.Services
             _matrixUtilities = matrixUtilities;
         }
 
+        public bool isMutant(DnaEntitie dnaEntitie)
+        {
+            if (dnaEntitie == null) throw  new ParameterNullException();
+            return isMutant(dnaEntitie.Dna);
+
+        }
 
 
-
-        public bool isMutant(string[] dna)
-        {                    
+         private bool isMutant(string[] dna)
+         {                  
           
-            var cantAdnsFinded = 0;
+            var cantAdnsFound = 0;
             var matrix =  _matrixUtilities.getMatrixFromList(dna);
             matrixLenght = dna.Length;
 
@@ -38,15 +45,16 @@ namespace Mutantes.Core.Services
                     var currentChar = matrix[i, j];
 
                     if (lookForValidRepetitions(matrix, i, j, i, j, 0, currentChar))
-                    {
-                        cantAdnsFinded++;
+                    {                      
+                        cantAdnsFound++;
+                        if (cantAdnsFound.Equals(sequencesNeeded)) return true;
 
                     }
                 }
 
             }
 
-            return cantAdnsFinded >= sequencesNeeded;
+            return false;
 
         }
 
@@ -93,7 +101,6 @@ namespace Mutantes.Core.Services
             return !(filActual < 0 || filActual >= matrixLenght || colActual < 0 || colActual >= matrixLenght);
         }
 
-
-
+    
     }
 }

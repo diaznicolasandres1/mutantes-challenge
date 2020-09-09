@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Mutantes.Core.Entities;
 using Mutantes.Core.Exceptions;
 using Mutantes.Core.Services;
 using Mutantes.Core.Utilities;
@@ -24,36 +25,64 @@ namespace Mutantes.UnitTests
         [ExpectedException(typeof(NonSquareMatrixException))]
         public void Test001TratarDeAnalizarUnaMatrizNoCuadradaLanzaNonSquareMatrixException()
         {
-            string[] dnaList = { "ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTGGGGGGGGg" };
-            _dnaAnalizerService.isMutant(dnaList);
+            string[] dna = { "ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTGGGGGGGGg" };
+            DnaEntitie dnaEntitie = new DnaEntitie
+            {
+                Dna = dna
+            };
+            _dnaAnalizerService.isMutant(dnaEntitie);
         }
 
        
 
         [TestMethod]
         [ExpectedException(typeof(NullDnaParameterException))]
-        public void Test002TratarDeAnalizarUnaMatrizNulaLanzaExcepcion()
+        public void Test002TratarDeAnalizarUnaMatrizNulaLanzaNullDnaParameterExceptionExcepcion()
         {
             string[] dnaList = null;
-            _dnaAnalizerService.isMutant(dnaList);
+            DnaEntitie dnaEntitie = new DnaEntitie
+            {
+                Dna = dnaList
+            };
+            _dnaAnalizerService.isMutant(dnaEntitie);
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ParameterNullException))]
+        public void Test002TratarDeAnalizarRecibiendoUnaEntidadNulaComoParametroLanzaParameterNullException()
+        {
+            
+            DnaEntitie dnaEntitie = null;        
+            _dnaAnalizerService.isMutant(dnaEntitie);
 
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidCharacterInListException))]
-        public void Test003MatrizConLetraBInvalidaLanzaExcepcion()
+        public void Test004MatrizConLetraBInvalidaLanzaExcepcion()
         {
             string[] dnaList = { "ATGCGA", "CAGTGC", "TTBTGT", "AGAAGG", "CCCCTA", "TCACTG" };
-            _dnaAnalizerService.isMutant(dnaList);
+            DnaEntitie dnaEntitie = new DnaEntitie
+            {
+                Dna = dnaList
+            };
+
+            _dnaAnalizerService.isMutant(dnaEntitie);
         }
 
 
         [TestMethod]
        
-        public void Test004AnalizarUnaMatrizConDatosMutanteDevuelveTrue()
+        public void Test005AnalizarUnaMatrizConDatosMutanteDevuelveTrue()
         {
             string[] dnaList = { "ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTG" };
-            var esMutante = _dnaAnalizerService.isMutant(dnaList);
+            DnaEntitie dnaEntitie = new DnaEntitie
+            {
+                Dna = dnaList
+            };
+
+            var esMutante = _dnaAnalizerService.isMutant(dnaEntitie);
             Assert.IsTrue(esMutante);
 
         }
@@ -68,10 +97,14 @@ namespace Mutantes.UnitTests
           T-C-A-C-T-G
 
          */
-        public void Test003AnalizarUnaMatrizConDatosHumanosDevuelveFalse()
+        public void Test006AnalizarUnaMatrizConDatosHumanosDevuelveFalse()
         {
             string[] dnaList = { "TTGCGA", "CAGTGA", "TTATGG", "AGTAGG", "CCTCTA", "TCACTG" };
-            var esMutante = _dnaAnalizerService.isMutant(dnaList);
+            DnaEntitie dnaEntitie = new DnaEntitie
+            {
+                Dna = dnaList
+            };
+            var esMutante = _dnaAnalizerService.isMutant(dnaEntitie);
             Assert.IsFalse(esMutante);
 
         }
