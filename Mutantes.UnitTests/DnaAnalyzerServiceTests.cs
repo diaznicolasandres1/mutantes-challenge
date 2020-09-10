@@ -88,7 +88,6 @@ namespace Mutantes.UnitTests
         }
 
 
-
         /*T-T-G-C-G-A
           C-A-G-T-G-A
           T-T-A-T-G-G

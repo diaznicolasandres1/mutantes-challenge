@@ -22,7 +22,7 @@ namespace Mutantes.UnitTests
 
         [TestMethod]   
         [ExpectedException(typeof(NullDnaParameterException))]
-        public void Test002TratarDeConvetirUnaMatrizNulaRetornaExcepcion()
+        public void Test002TratarDeConvetirUnaMatrizNulaRetornaNullParameterException()
         {
              utilites.getMatrixFromList(null);
             
