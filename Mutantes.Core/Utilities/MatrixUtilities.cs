@@ -19,7 +19,7 @@ namespace Mutantes.Core.Utilities
         {
             if (dna == null)
             {
-                throw new NullDnaParameterException();
+                throw new NullDnaParameterException("Empty string list, please insert a valid matriz (at least 4x4)");
             }
 
             var matrixLength = dna.Length;
@@ -37,7 +37,7 @@ namespace Mutantes.Core.Utilities
 
                         if (!posibleLetters.Contains(currentChar))
                         {
-                            throw new InvalidCharacterInListException();
+                            throw new InvalidCharacterInListException("Invalid char in the matix, only permitted: G, T, A, C.");
                         }
 
                         matrizChar[fil, col] = rowToCharArr[col];
@@ -50,7 +50,7 @@ namespace Mutantes.Core.Utilities
             catch (IndexOutOfRangeException)
             {
 
-                throw new NonSquareMatrixException();
+                throw new NonSquareMatrixException("NonSquare matrix error. Please insert a valid matriz (at least 4x4)");
             }
 
 

@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mutantes.Core", "Mutantes.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mutantes.Infraestructura", "Mutantes.Infraestructura\Mutantes.Infraestructura.csproj", "{EAFDD72D-57D8-44C1-AD6F-A867DE846AFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mutantes.UnitTests", "Mutantes.UnitTests\Mutantes.UnitTests.csproj", "{1B9C869B-39AC-4CAE-8AE7-F5295514F42A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mutantes.UnitTests", "Mutantes.UnitTests\Mutantes.UnitTests.csproj", "{1B9C869B-39AC-4CAE-8AE7-F5295514F42A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mutantes.IntegrationTest", "Mutantes.IntegrationTest\Mutantes.IntegrationTest.csproj", "{1C18A5AB-3268-4339-BFDB-20282A6C08E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,12 +37,17 @@ Global
 		{1B9C869B-39AC-4CAE-8AE7-F5295514F42A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B9C869B-39AC-4CAE-8AE7-F5295514F42A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B9C869B-39AC-4CAE-8AE7-F5295514F42A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C18A5AB-3268-4339-BFDB-20282A6C08E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C18A5AB-3268-4339-BFDB-20282A6C08E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C18A5AB-3268-4339-BFDB-20282A6C08E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C18A5AB-3268-4339-BFDB-20282A6C08E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1B9C869B-39AC-4CAE-8AE7-F5295514F42A} = {8DD11320-DCA9-44D2-AC1D-A039241C08A6}
+		{1C18A5AB-3268-4339-BFDB-20282A6C08E4} = {8DD11320-DCA9-44D2-AC1D-A039241C08A6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {00694717-2A78-4E46-8898-F121CF4DA8CF}

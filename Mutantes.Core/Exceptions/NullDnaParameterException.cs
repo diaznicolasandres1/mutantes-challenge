@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Mutantes.Core.Exceptions
 {
-    public class NullDnaParameterException : Exception
+    public class NullDnaParameterException : MutantsException
     {
         public NullDnaParameterException()
         {

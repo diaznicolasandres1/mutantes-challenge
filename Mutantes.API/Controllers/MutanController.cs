@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Mutantes.API.Utilities;
 using Mutantes.Core.DTOs;
 using Mutantes.Core.Entities;
+using Mutantes.Core.Exceptions;
 using Mutantes.Core.Interfaces;
 
 namespace Mutantes.API.Controllers
@@ -21,24 +23,77 @@ namespace Mutantes.API.Controllers
 
 
         [HttpPost]
-        public ActionResult Post([FromBody]DnaDto dnaRequest)
+        public ActionResult Post([FromBody] DnaDto dnaRequest)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-            var dnaEntitie = new DnaEntitie
-            {
-                Dna = dnaRequest.dna
-            };
 
+            if (!ModelState.IsValid || dnaRequest.dna.Length < 4)
+                return CustomBadRequest("Invalid DNA: Empty or invalid length, minimun matrix size is 4x4");
 
-            var isMutant = _dnaAnalyzerService.isMutant(dnaEntitie);
-            if (isMutant)
+            try
             {
-                return Ok("Es mutanteee");
+                var dnaEntitie = new DnaEntitie {Dna = dnaRequest.dna };                   
+                bool isMutant = _dnaAnalyzerService.isMutant(dnaEntitie);
+
+                if (isMutant)
+                {
+                    return MutantFound();
+                }
+
+                return HumanFound();
             }
-            return BadRequest("Es human");
+
+            catch (MutantsException exception)
+            {
+
+                return CustomBadRequest(exception.Message);
+            }
+
         }
+
+
+
+
+
+      
+
+
+
+        private BadRequestObjectResult CustomBadRequest(string message)
+        {
+           var response = new MessageReponse{
+                status = 400,
+                tittle =  "Bad Request.",
+                message = message
+            };
+            return BadRequest(response);
+
+        }
+
+
+        private OkObjectResult MutantFound()
+        {
+            var response = new MessageReponse
+            {
+                status = 200,
+                tittle = "Dna analisis result",
+                message = "DNA corresponds to a mutant"
+            };
+            return Ok(response);
+        }
+
+        private ObjectResult HumanFound()
+        {
+            var response = new MessageReponse
+            {
+                status = 403,
+                tittle = "Dna analisis result",
+                message = "DNA corresponds to a human"
+            };
+            return StatusCode(403,response);
+        }
+
+
+
     }
+    
 }

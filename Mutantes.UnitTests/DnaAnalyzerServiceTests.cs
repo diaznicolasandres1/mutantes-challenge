@@ -25,10 +25,10 @@ namespace Mutantes.UnitTests
         [ExpectedException(typeof(NonSquareMatrixException))]
         public void Test001TratarDeAnalizarUnaMatrizNoCuadradaLanzaNonSquareMatrixException()
         {
-            string[] dna = { "ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTGGGGGGGGg" };
+            //string[] dna = { "ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTGGGGGGGG" };
             DnaEntitie dnaEntitie = new DnaEntitie
             {
-                Dna = dna
+                Dna = DnaListGenerator.NonSquareMatrix()
             };
             _dnaAnalizerService.isMutant(dnaEntitie);
         }
@@ -49,8 +49,8 @@ namespace Mutantes.UnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ParameterNullException))]
-        public void Test002TratarDeAnalizarRecibiendoUnaEntidadNulaComoParametroLanzaParameterNullException()
+        [ExpectedException(typeof(NullParameterException))]
+        public void Test002TratarDeAnalizarDnaRecibiendoUnaEntidadNulaComoParametroLanzaParameterNullException()
         {
             
             DnaEntitie dnaEntitie = null;        
@@ -60,12 +60,12 @@ namespace Mutantes.UnitTests
 
         [TestMethod]
         [ExpectedException(typeof(InvalidCharacterInListException))]
-        public void Test004MatrizConLetraBInvalidaLanzaExcepcion()
+        public void Test004MatrizConLetraInvalidaLanzaExcepcion()
         {
-            string[] dnaList = { "ATGCGA", "CAGTGC", "TTBTGT", "AGAAGG", "CCCCTA", "TCACTG" };
+           
             DnaEntitie dnaEntitie = new DnaEntitie
             {
-                Dna = dnaList
+                Dna = DnaListGenerator.InvalidCharMatrix()
             };
 
             _dnaAnalizerService.isMutant(dnaEntitie);
@@ -76,10 +76,10 @@ namespace Mutantes.UnitTests
        
         public void Test005AnalizarUnaMatrizConDatosMutanteDevuelveTrue()
         {
-            string[] dnaList = { "ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTG" };
+
             DnaEntitie dnaEntitie = new DnaEntitie
             {
-                Dna = dnaList
+                Dna = DnaListGenerator.DnaMutantMatrix()
             };
 
             var esMutante = _dnaAnalizerService.isMutant(dnaEntitie);
@@ -99,10 +99,10 @@ namespace Mutantes.UnitTests
          */
         public void Test006AnalizarUnaMatrizConDatosHumanosDevuelveFalse()
         {
-            string[] dnaList = { "TTGCGA", "CAGTGA", "TTATGG", "AGTAGG", "CCTCTA", "TCACTG" };
+
             DnaEntitie dnaEntitie = new DnaEntitie
             {
-                Dna = dnaList
+                Dna = DnaListGenerator.DnaHumanMatriz()
             };
             var esMutante = _dnaAnalizerService.isMutant(dnaEntitie);
             Assert.IsFalse(esMutante);

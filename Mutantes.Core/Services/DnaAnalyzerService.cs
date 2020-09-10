@@ -25,7 +25,7 @@ namespace Mutantes.Core.Services
 
         public bool isMutant(DnaEntitie dnaEntitie)
         {
-            if (dnaEntitie == null) throw  new ParameterNullException();
+            if (dnaEntitie == null ) throw new NullParameterException("Null paramater, please use a valid request.");
             return isMutant(dnaEntitie.Dna);
 
         }
@@ -100,6 +100,8 @@ namespace Mutantes.Core.Services
         {
             return !(filActual < 0 || filActual >= matrixLenght || colActual < 0 || colActual >= matrixLenght);
         }
+
+     
 
     
     }
