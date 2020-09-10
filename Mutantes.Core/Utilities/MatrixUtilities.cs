@@ -19,7 +19,7 @@ namespace Mutantes.Core.Utilities
         {
             if (dna == null)
             {
-                throw new NullDnaParameterException("Empty string list, please insert a valid matriz (at least 4x4)");
+                return null;
             }
 
             var matrixLength = dna.Length;

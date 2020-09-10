@@ -20,13 +20,12 @@ namespace Mutantes.UnitTests
         }
 
 
-        [TestMethod]   
-        [ExpectedException(typeof(NullDnaParameterException))]
-        public void Test002TratarDeConvetirUnaMatrizNulaRetornaNullParameterException()
+        [TestMethod]           
+        public void Test002TratarDeConvetirUnaMatrizNulaRetornaNull()
         {
-             utilites.getMatrixFromList(null);
-            
+           var nullResponse =   utilites.getMatrixFromList(null);
 
+            Assert.IsNull(nullResponse);
         }
 
         [TestMethod]

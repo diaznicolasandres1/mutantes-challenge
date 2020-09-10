@@ -36,6 +36,10 @@ namespace Mutantes.Core.Services
           
             var cantAdnsFound = 0;
             var matrix =  _matrixUtilities.getMatrixFromList(dna);
+            if(matrix == null)
+            {
+                throw new NullDnaParameterException("Empty string list, please insert a valid matriz(at least 4x4)");
+            }
             matrixLenght = dna.Length;
 
             for (int i = 0; i < dna.Length; i++)

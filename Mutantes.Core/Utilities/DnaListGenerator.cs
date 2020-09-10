@@ -37,5 +37,11 @@ namespace Mutantes.Core.Utilities
             string[] dnaList = { "TTGCGA", "CAGTGA", "TTATGG", "AGTAGG", "CCTCTA", "TCACTG" };
             return dnaList;
         }
+
+        public static string[] EmptyMatrix()
+        {
+            string[] dnaList = {  };
+            return dnaList;
+        }
     }
 }

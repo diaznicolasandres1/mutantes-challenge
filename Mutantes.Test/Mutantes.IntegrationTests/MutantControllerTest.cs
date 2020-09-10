@@ -51,6 +51,27 @@ namespace Mutantes.IntegrationTest
         }
 
 
+        [TestMethod]
+        public async Task Test004RecibirUnParametroNuloRetornaUnsupportedMediaType()
+        {
+            var apiResponse =  await _client.PostAsync("api/mutant", null);
+            Assert.AreEqual(apiResponse.StatusCode, System.Net.HttpStatusCode.UnsupportedMediaType);
+
+        }
+
+        [TestMethod]
+        public async Task Test005RecibirMatrixVaciaRetornaBadRequest()
+        {
+            
+            var apiResponse = await makeRequest(DnaListGenerator.EmptyMatrix());
+
+            Assert.AreEqual(apiResponse.StatusCode, System.Net.HttpStatusCode.BadRequest);
+        }
+
+
+
+
+
 
 
         private async Task<HttpResponseMessage> makeRequest(string[] dnaList)
