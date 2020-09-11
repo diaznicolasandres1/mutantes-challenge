@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using Microsoft.Extensions.Caching.Memory;
 using Mutantes.Core.Entities;
 using Mutantes.Core.Exceptions;
 using Mutantes.Core.Interfaces;
@@ -25,14 +26,14 @@ namespace Mutantes.Core.Services
 
         IMatrixUtilities _matrixUtilities;
         IDnaSaverService _dnaSaverService;
+        ICacheService _cacheService;
 
 
-
-        public DnaAnalyzerService(IMatrixUtilities matrixUtilities, IDnaSaverService dnaSaverService)
+        public DnaAnalyzerService(IMatrixUtilities matrixUtilities, IDnaSaverService dnaSaverService, ICacheService cacheService)
         {
             _matrixUtilities = matrixUtilities;
             _dnaSaverService = dnaSaverService;
-
+            _cacheService = cacheService;
         }
 
    
@@ -41,7 +42,23 @@ namespace Mutantes.Core.Services
         {
             if (dnaEntitie == null ) throw new NullParameterException("Null paramater, please use a valid request.");
             string[] dna = dnaEntitie.Dna;
-            bool isMutantResult = isMutant(dna);
+
+            bool isMutantResult = false;
+            string dnaString = string.Join(",", dna);
+           
+            //Chequeo cache por su key: dnaString.
+            var resultCache = await _cacheService.GetCachedResponseAsync(dnaString);
+            if(resultCache != null)
+            {               
+                    isMutantResult = Convert.ToBoolean(resultCache);
+            }
+            else
+            {
+                isMutantResult = isMutant(dna);
+                await _cacheService.CacheResponseAsync(dnaString, isMutantResult.ToString());
+            }
+
+
 
             try
             {

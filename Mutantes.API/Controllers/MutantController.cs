@@ -17,12 +17,14 @@ namespace Mutantes.API.Controllers
     public class MutantController : Controller
     {
         IDnaAnalyzerService _dnaAnalyzerService;
-        
+        ICacheService _redisCache;
+
+
 
         public MutantController(IDnaAnalyzerService dnaAnalyzerService)
         {
             _dnaAnalyzerService = dnaAnalyzerService;
-           
+          
         }
 
 
@@ -34,13 +36,11 @@ namespace Mutantes.API.Controllers
                 return CustomBadRequest("Invalid DNA: Empty or invalid length, minimun matrix size is 4x4");
 
             try
-            {
-                string dnaForCache = string.Join(',', dnaRequest.dna);
-               
+            {             
+                                
+                var dnaEntitie = new DnaEntitie { Dna = dnaRequest.dna };
+                bool isMutant = await _dnaAnalyzerService.IsMutantAsync(dnaEntitie);                 
              
-                var dnaEntitie = new DnaEntitie {Dna = dnaRequest.dna };
-                
-                bool isMutant = await _dnaAnalyzerService.IsMutantAsync(dnaEntitie);
 
                 if (isMutant)
                 {
