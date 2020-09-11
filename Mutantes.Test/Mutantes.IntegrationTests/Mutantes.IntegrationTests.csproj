@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Mutantes.API\Mutantes.API.csproj" />
+    <ProjectReference Include="..\..\Mutantes.Infraestructura\Mutantes.Infraestructura.csproj" />
   </ItemGroup>
 
 </Project>
