@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mutantes.Core\Mutantes.Core.csproj" />
+    <ProjectReference Include="..\..\Mutantes.Core\Mutantes.Core.csproj" />
   </ItemGroup>
 
 </Project>

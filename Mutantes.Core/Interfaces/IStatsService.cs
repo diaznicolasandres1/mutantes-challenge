@@ -8,6 +8,7 @@ namespace Mutantes.Core.Interfaces
 {
     public interface IStatsService
     {
-        public  Task<Stats> GetStats();
+        public  Task<StatsEntitie> GetStats();
+
     }
 }

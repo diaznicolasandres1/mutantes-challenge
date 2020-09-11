@@ -1,10 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mutantes.Core.Entities;
 using Mutantes.Core.Exceptions;
 using Mutantes.Core.Services;
 using Mutantes.Core.Utilities;
-using Newtonsoft.Json.Bson;
-using System.Threading;
 
 namespace Mutantes.UnitTests
 {
@@ -15,7 +13,7 @@ namespace Mutantes.UnitTests
         DnaAnalyzerService _dnaAnalizerService;
         public DnaAnalyzerServiceTest()
         {
-             _matrixUtilities = new MatrixUtilities();
+            _matrixUtilities = new MatrixUtilities();
             _dnaAnalizerService = new DnaAnalyzerService(_matrixUtilities);
 
         }
@@ -33,7 +31,7 @@ namespace Mutantes.UnitTests
             _dnaAnalizerService.isMutant(dnaEntitie);
         }
 
-       
+
 
         [TestMethod]
         [ExpectedException(typeof(NullDnaParameterException))]
@@ -52,8 +50,8 @@ namespace Mutantes.UnitTests
         [ExpectedException(typeof(NullParameterException))]
         public void Test002TratarDeAnalizarDnaRecibiendoUnaEntidadNulaComoParametroLanzaParameterNullException()
         {
-            
-            DnaEntitie dnaEntitie = null;        
+
+            DnaEntitie dnaEntitie = null;
             _dnaAnalizerService.isMutant(dnaEntitie);
 
         }
@@ -62,7 +60,7 @@ namespace Mutantes.UnitTests
         [ExpectedException(typeof(InvalidCharacterInListException))]
         public void Test004MatrizConLetraInvalidaLanzaExcepcion()
         {
-           
+
             DnaEntitie dnaEntitie = new DnaEntitie
             {
                 Dna = DnaListGenerator.InvalidCharMatrix()
@@ -73,7 +71,6 @@ namespace Mutantes.UnitTests
 
 
         [TestMethod]
-       
         public void Test005AnalizarUnaMatrizConDatosMutanteDevuelveTrue()
         {
 
@@ -96,6 +93,7 @@ namespace Mutantes.UnitTests
           T-C-A-C-T-G
 
          */
+        [TestMethod]
         public void Test006AnalizarUnaMatrizConDatosHumanosDevuelveFalse()
         {
 
@@ -107,15 +105,10 @@ namespace Mutantes.UnitTests
             Assert.IsFalse(esMutante);
 
         }
-
-
-
-
-
+    }
 
 
 
 
 
     }
-}

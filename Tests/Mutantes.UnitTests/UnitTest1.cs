@@ -1,6 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Mutantes.Test
+namespace Mutantes.UnitTests
 {
     [TestClass]
     public class UnitTest1

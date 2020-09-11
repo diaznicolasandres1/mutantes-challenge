@@ -9,6 +9,8 @@ using Mutantes.Core.Interfaces;
 using Mutantes.Core.Services;
 using Mutantes.Core.Utilities;
 using Mutantes.Infraestructura.Data;
+using Mutantes.Infraestructura.Interfaces;
+using Mutantes.Infraestructura.Repositories;
 using Newtonsoft.Json;
 using System.Configuration;
 
@@ -16,18 +18,25 @@ namespace Mutantes.API
 {
     public class Startup
     {
-        
-        public void ConfigureServices(IServiceCollection services, IConfiguration  configuration)
+        IConfiguration _configuration;
+        public Startup(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<MutantsDbContext>(optionsBuilder =>
-               optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnectionString"))); 
+               optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnectionString"))); 
 
             services.AddControllers().AddNewtonsoftJson(options =>
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
                        
-            services.AddTransient<IStatsService, StatsService>();
+         
             services.AddTransient<IDnaAnalyzerService, DnaAnalyzerService>();
             services.AddTransient<IMatrixUtilities, MatrixUtilities>();
+            services.AddTransient<IStatsRepository, StatsRepository>();
+            services.AddTransient<IStatsService, StatsService>();
+            
         }
 
        
@@ -41,6 +50,7 @@ namespace Mutantes.API
 
             app.UseRouting();
 
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
