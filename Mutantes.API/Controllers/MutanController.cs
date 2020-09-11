@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+
+using StackExchange.Redis;
 using Mutantes.API.Utilities;
 using Mutantes.Core.DTOs;
 using Mutantes.Core.Entities;
 using Mutantes.Core.Exceptions;
 using Mutantes.Core.Interfaces;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Mutantes.API.Controllers
 {
@@ -17,9 +17,12 @@ namespace Mutantes.API.Controllers
     public class MutantController : Controller
     {
         IDnaAnalyzerService _dnaAnalyzerService;
+        
+
         public MutantController(IDnaAnalyzerService dnaAnalyzerService)
         {
             _dnaAnalyzerService = dnaAnalyzerService;
+           
         }
 
 
@@ -32,7 +35,11 @@ namespace Mutantes.API.Controllers
 
             try
             {
+                string dnaForCache = string.Join(',', dnaRequest.dna);
+               
+             
                 var dnaEntitie = new DnaEntitie {Dna = dnaRequest.dna };
+                
                 bool isMutant = await _dnaAnalyzerService.IsMutantAsync(dnaEntitie);
 
                 if (isMutant)

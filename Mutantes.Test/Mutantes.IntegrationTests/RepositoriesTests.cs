@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace Mutantes.IntegrationTest
 {
         
-    class StatsRepository
+    class RepositoriesTests
     {
         private MutantsDbContext _context;
         private Infraestructura.Repositories.StatsRepository _statsRepository;
@@ -29,6 +29,7 @@ namespace Mutantes.IntegrationTest
             _statsRepository = new Infraestructura.Repositories.StatsRepository(_context);
             _dnaAnalyzed = new DnaAnalyzedRepository(_context);
         }
+
 
         [TearDown]
         public void TearDown()
@@ -48,7 +49,7 @@ namespace Mutantes.IntegrationTest
 
         [Test]
          
-        public async Task Test002UpdateoLaCantidadDeMutanteEncontradosYLosStantsDevuelvenMutantes1()
+        public async Task Test002UpdateoLaCantidadDeMutanteEncontradosYLosStantsDevuelvenCantMutantes1()
         {
             var result = await _statsRepository.GetStats();        
             Assert.AreEqual(result.MutantsFound, 0);
@@ -69,7 +70,7 @@ namespace Mutantes.IntegrationTest
         }
 
         [Test]
-        public async Task Test003UpdateoLaCantidadDeHumanosEncontradosYLosStatsDevuelvenHumanos1()
+        public async Task Test003UpdateoLaCantidadDeHumanosEncontradosYLosStatsDevuelveCantHumanos1()
         {
             var result = await _statsRepository.GetStats();
             
@@ -78,7 +79,7 @@ namespace Mutantes.IntegrationTest
             DnaAnalyzed dnaAnalizded = new DnaAnalyzed()
             {
                 Dna = "DNATES_THUMANO",
-                IsMutant = true,
+                IsMutant = false,
                 DateAnalyzed = DateTime.Now
             };
 
@@ -88,6 +89,10 @@ namespace Mutantes.IntegrationTest
             Assert.AreEqual(1, resultAfterUpdate.HumansFound);
 
         }
+
+
+
+
 
 
 

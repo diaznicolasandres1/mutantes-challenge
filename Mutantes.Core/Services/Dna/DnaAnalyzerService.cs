@@ -1,6 +1,8 @@
-﻿using Mutantes.Core.Entities;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Mutantes.Core.Entities;
 using Mutantes.Core.Exceptions;
 using Mutantes.Core.Interfaces;
+using Mutantes.Core.Interfaces.Dna;
 using Mutantes.Core.Utilities;
 using Mutantes.Infraestructura.Data;
 using Mutantes.Infraestructura.Interfaces;
@@ -17,25 +19,20 @@ namespace Mutantes.Core.Services
     {
         private int sequencesNeeded = 2;
         private int consecLettersNeeded = 4;
-        private int matrixLenght;
-
-        IDnaAnalyzedRepository _dnaAnalyzedRepository;
-        IStatsRepository _statsRepository;
+        private int matrixLenght;    
 
         
 
-
-
         IMatrixUtilities _matrixUtilities;
-        private MatrixUtilities matrixUtilities;
-        private IDnaAnalyzedRepository dnaAnalyzedRepository;
-       
+        IDnaSaverService _dnaSaverService;
 
-        public DnaAnalyzerService(IMatrixUtilities matrixUtilities, IDnaAnalyzedRepository analyzedRepository, IStatsRepository statsRepository)
+
+
+        public DnaAnalyzerService(IMatrixUtilities matrixUtilities, IDnaSaverService dnaSaverService)
         {
             _matrixUtilities = matrixUtilities;
-            _dnaAnalyzedRepository = analyzedRepository;
-            _statsRepository = statsRepository;
+            _dnaSaverService = dnaSaverService;
+
         }
 
    
@@ -48,7 +45,7 @@ namespace Mutantes.Core.Services
 
             try
             {
-                await saveDnaResultAsync(dna, isMutantResult);
+                await _dnaSaverService.saveDnaResultAsync(dna, isMutantResult);
                 
             }  
             catch (Exception e)
@@ -64,7 +61,8 @@ namespace Mutantes.Core.Services
 
 
          private bool isMutant(string[] dna)
-         {                  
+         {  
+            
           
             var cantAdnsFound = 0;
             var matrix =  _matrixUtilities.getMatrixFromList(dna);
@@ -137,22 +135,7 @@ namespace Mutantes.Core.Services
             return !(filActual < 0 || filActual >= matrixLenght || colActual < 0 || colActual >= matrixLenght);
         }
 
-        private async Task saveDnaResultAsync(string[] dna,bool isMutant)
-        {
-            var dnaString = string.Join(",", dna);
-            DnaAnalyzed dnaAnalyzed = new DnaAnalyzed
-            {
-                IsMutant = isMutant,
-                Dna = dnaString,
-                DateAnalyzed = DateTime.Now
-
-            };
-
-            await _dnaAnalyzedRepository.CreateAsync(dnaAnalyzed);
-            await _statsRepository.UpdateStatsAsync(dnaAnalyzed);
-
-        }
-
+      
 
 
 

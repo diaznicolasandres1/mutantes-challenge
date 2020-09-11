@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mutantes.Core.Entities;
 using Mutantes.Core.Exceptions;
+using Mutantes.Core.Interfaces.Dna;
 using Mutantes.Core.Services;
 using Mutantes.Core.Utilities;
 using Mutantes.Infraestructura.Data;
@@ -19,9 +20,11 @@ namespace Mutantes.UnitTests
         MatrixUtilities _matrixUtilities;
         DnaAnalyzerService _dnaAnalizerService;
 
-        
-        Mock<IDnaAnalyzedRepository> dnaAnalyzedRepository = new Mock<IDnaAnalyzedRepository>();
-        Mock<IStatsRepository> statsRepository = new Mock<IStatsRepository>();
+
+        //Mock<IDnaAnalyzedRepository> dnaAnalyzedRepository = new Mock<IDnaAnalyzedRepository>();
+        //Mock<IStatsRepository> statsRepository = new Mock<IStatsRepository>();
+
+        Mock<IDnaSaverService> dnaSaverService = new Mock<IDnaSaverService>();
 
         DnaAnalyzed test = new DnaAnalyzed()
         {
@@ -37,14 +40,17 @@ namespace Mutantes.UnitTests
             
             _matrixUtilities = new MatrixUtilities();
 
-            statsRepository.Setup(x => x.UpdateStatsAsync(test)).Returns(Task.CompletedTask);
+            // statsRepository.Setup(x => x.UpdateStatsAsync(test)).Returns(Task.CompletedTask);
 
-            dnaAnalyzedRepository.Setup(x => x.CreateAsync(test)).Returns(Task.CompletedTask);
+            //            dnaAnalyzedRepository.Setup(x => x.CreateAsync(test)).Returns(Task.CompletedTask);
 
-            var asd = statsRepository.Object;
-            var xd = dnaAnalyzedRepository.Object;
+            // var asd = statsRepository.Object;
+            // var xd = dnaAnalyzedRepository.Object;
+            string[]  dna = DnaListGenerator.DnaHumanMatriz();
 
-            _dnaAnalizerService = new DnaAnalyzerService(_matrixUtilities, xd, asd);
+            dnaSaverService.Setup(x => x.saveDnaResultAsync(dna, false)).Returns(Task.CompletedTask);
+
+            _dnaAnalizerService = new DnaAnalyzerService(_matrixUtilities, dnaSaverService.Object);
 
        
 

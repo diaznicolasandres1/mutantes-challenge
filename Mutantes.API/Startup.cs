@@ -6,12 +6,15 @@ using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Mutantes.Core.Interfaces;
+using Mutantes.Core.Interfaces.Dna;
 using Mutantes.Core.Services;
+using Mutantes.Core.Services.Dna;
 using Mutantes.Core.Utilities;
 using Mutantes.Infraestructura.Data;
 using Mutantes.Infraestructura.Interfaces;
 using Mutantes.Infraestructura.Repositories;
 using Newtonsoft.Json;
+using StackExchange.Redis;
 using System.Configuration;
 
 namespace Mutantes.API
@@ -26,7 +29,7 @@ namespace Mutantes.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<MutantsDbContext>(optionsBuilder =>
-               optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnectionString"))); 
+               optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnectionString")));
 
             services.AddControllers().AddNewtonsoftJson(options =>
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -36,9 +39,11 @@ namespace Mutantes.API
             services.AddTransient<IStatsRepository, StatsRepository>();
             services.AddTransient<IDnaAnalyzerService, DnaAnalyzerService>();
             services.AddTransient<IStatsService, StatsService>();
+            services.AddTransient<IDnaSaverService, DnaSaverService>();
+            services.AddSingleton<IConnectionMultiplexer>(x => ConnectionMultiplexer.Connect("muntantes-diaznicolas.redis.cache.windows.net:6380,password=HeXWGH4sSqpK08XT9N3RpTfB9aVz3SqjHt7oX3OM8Xk=,ssl=True,abortConnect=False"));
+            services.AddTransient<ICacheService, RedisCacheService>();
 
-
-
+           
 
         }
 

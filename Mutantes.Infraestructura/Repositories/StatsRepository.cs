@@ -33,6 +33,10 @@ namespace Mutantes.Infraestructura.Repositories
 
         public async Task UpdateStatsAsync(DnaAnalyzed dnaAnalyzed)
         {
+            if(dnaAnalyzed == null)
+            {
+                throw new Exception("Null DnaAnalyzed Paramater");
+            }
             var stats = await GetStats();
 
             if (dnaAnalyzed.IsMutant)
