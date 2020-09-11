@@ -1,8 +1,15 @@
+using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Mutantes.Core.Entities;
 using Mutantes.Core.Exceptions;
 using Mutantes.Core.Services;
 using Mutantes.Core.Utilities;
+using Mutantes.Infraestructura.Data;
+using Mutantes.Infraestructura.Interfaces;
+using Mutantes.Infraestructura.Repositories;
+using System;
+using System.Threading.Tasks;
 
 namespace Mutantes.UnitTests
 {
@@ -11,54 +18,81 @@ namespace Mutantes.UnitTests
     {
         MatrixUtilities _matrixUtilities;
         DnaAnalyzerService _dnaAnalizerService;
+
+        
+        Mock<IDnaAnalyzedRepository> dnaAnalyzedRepository = new Mock<IDnaAnalyzedRepository>();
+        Mock<IStatsRepository> statsRepository = new Mock<IStatsRepository>();
+
+        DnaAnalyzed test = new DnaAnalyzed()
+        {
+            DateAnalyzed = DateTime.Now,
+            Dna = "TESTDNA",
+            IsMutant = true
+        };
+
+
+
         public DnaAnalyzerServiceTest()
         {
+            
             _matrixUtilities = new MatrixUtilities();
-            _dnaAnalizerService = new DnaAnalyzerService(_matrixUtilities);
+
+            statsRepository.Setup(x => x.UpdateStatsAsync(test)).Returns(Task.CompletedTask);
+
+            dnaAnalyzedRepository.Setup(x => x.CreateAsync(test)).Returns(Task.CompletedTask);
+
+            var asd = statsRepository.Object;
+            var xd = dnaAnalyzedRepository.Object;
+
+            _dnaAnalizerService = new DnaAnalyzerService(_matrixUtilities, xd, asd);
+
+       
 
         }
 
 
         [TestMethod]
         [ExpectedException(typeof(NonSquareMatrixException))]
-        public void Test001TratarDeAnalizarUnaMatrizNoCuadradaLanzaNonSquareMatrixException()
+        public async Task Test001TratarDeAnalizarUnaMatrizNoCuadradaLanzaNonSquareMatrixExceptionAsync()
         {
-            //string[] dna = { "ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTGGGGGGGG" };
+          
+
+            
             DnaEntitie dnaEntitie = new DnaEntitie
             {
                 Dna = DnaListGenerator.NonSquareMatrix()
             };
-            _dnaAnalizerService.isMutant(dnaEntitie);
+           await _dnaAnalizerService.IsMutantAsync(dnaEntitie);
         }
 
 
 
         [TestMethod]
         [ExpectedException(typeof(NullDnaParameterException))]
-        public void Test002TratarDeAnalizarUnaMatrizNulaLanzaNullDnaParameterExceptionExcepcion()
+        public async System.Threading.Tasks.Task Test002TratarDeAnalizarUnaMatrizNulaLanzaNullDnaParameterExceptionExcepcionAsync()
         {
             string[] dnaList = null;
             DnaEntitie dnaEntitie = new DnaEntitie
             {
                 Dna = dnaList
             };
-            _dnaAnalizerService.isMutant(dnaEntitie);
+            await _dnaAnalizerService.IsMutantAsync(dnaEntitie);
 
         }
 
         [TestMethod]
         [ExpectedException(typeof(NullParameterException))]
-        public void Test002TratarDeAnalizarDnaRecibiendoUnaEntidadNulaComoParametroLanzaParameterNullException()
+        public async Task Test002TratarDeAnalizarDnaRecibiendoUnaEntidadNulaComoParametroLanzaParameterNullExceptionAsync()
         {
 
             DnaEntitie dnaEntitie = null;
-            _dnaAnalizerService.isMutant(dnaEntitie);
+            await _dnaAnalizerService.IsMutantAsync(dnaEntitie);
 
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidCharacterInListException))]
-        public void Test004MatrizConLetraInvalidaLanzaExcepcion()
+        public async Task Test004MatrizConLetraInvalidaLanzaExcepcionAsync()
         {
 
             DnaEntitie dnaEntitie = new DnaEntitie
@@ -66,12 +100,12 @@ namespace Mutantes.UnitTests
                 Dna = DnaListGenerator.InvalidCharMatrix()
             };
 
-            _dnaAnalizerService.isMutant(dnaEntitie);
+           await _dnaAnalizerService.IsMutantAsync(dnaEntitie);
         }
 
 
         [TestMethod]
-        public void Test005AnalizarUnaMatrizConDatosMutanteDevuelveTrue()
+        public async Task Test005AnalizarUnaMatrizConDatosMutanteDevuelveTrueAsync()
         {
 
             DnaEntitie dnaEntitie = new DnaEntitie
@@ -79,7 +113,7 @@ namespace Mutantes.UnitTests
                 Dna = DnaListGenerator.DnaMutantMatrix()
             };
 
-            var esMutante = _dnaAnalizerService.isMutant(dnaEntitie);
+            var esMutante =await  _dnaAnalizerService.IsMutantAsync(dnaEntitie);
             Assert.IsTrue(esMutante);
 
         }
@@ -94,14 +128,14 @@ namespace Mutantes.UnitTests
 
          */
         [TestMethod]
-        public void Test006AnalizarUnaMatrizConDatosHumanosDevuelveFalse()
+        public async Task Test006AnalizarUnaMatrizConDatosHumanosDevuelveFalseAsync()
         {
 
             DnaEntitie dnaEntitie = new DnaEntitie
             {
                 Dna = DnaListGenerator.DnaHumanMatriz()
             };
-            var esMutante = _dnaAnalizerService.isMutant(dnaEntitie);
+            var esMutante = await _dnaAnalizerService.IsMutantAsync(dnaEntitie);
             Assert.IsFalse(esMutante);
 
         }

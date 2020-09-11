@@ -2,9 +2,13 @@
 using Mutantes.Core.Exceptions;
 using Mutantes.Core.Interfaces;
 using Mutantes.Core.Utilities;
-using System;
-using System.Collections.Generic;
+using Mutantes.Infraestructura.Data;
+using Mutantes.Infraestructura.Interfaces;
+using Mutantes.Infraestructura.Repositories;
+using System;using System.Collections.Generic;
+
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Mutantes.Core.Services
@@ -15,18 +19,46 @@ namespace Mutantes.Core.Services
         private int consecLettersNeeded = 4;
         private int matrixLenght;
 
+        IDnaAnalyzedRepository _dnaAnalyzedRepository;
+        IStatsRepository _statsRepository;
+
+        
+
 
 
         IMatrixUtilities _matrixUtilities;
-        public DnaAnalyzerService(IMatrixUtilities matrixUtilities)
+        private MatrixUtilities matrixUtilities;
+        private IDnaAnalyzedRepository dnaAnalyzedRepository;
+       
+
+        public DnaAnalyzerService(IMatrixUtilities matrixUtilities, IDnaAnalyzedRepository analyzedRepository, IStatsRepository statsRepository)
         {
             _matrixUtilities = matrixUtilities;
+            _dnaAnalyzedRepository = analyzedRepository;
+            _statsRepository = statsRepository;
         }
 
-        public bool isMutant(DnaEntitie dnaEntitie)
+   
+
+        public async Task<bool> IsMutantAsync(DnaEntitie dnaEntitie)
         {
             if (dnaEntitie == null ) throw new NullParameterException("Null paramater, please use a valid request.");
-            return isMutant(dnaEntitie.Dna);
+            string[] dna = dnaEntitie.Dna;
+            bool isMutantResult = isMutant(dna);
+
+            try
+            {
+                await saveDnaResultAsync(dna, isMutantResult);
+                
+            }  
+            catch (Exception e)
+            {
+                throw new ErrorSavingResultException("An unexpected error occurred, please try again");
+
+
+            }
+            return isMutantResult;
+
 
         }
 
@@ -105,8 +137,25 @@ namespace Mutantes.Core.Services
             return !(filActual < 0 || filActual >= matrixLenght || colActual < 0 || colActual >= matrixLenght);
         }
 
-     
+        private async Task saveDnaResultAsync(string[] dna,bool isMutant)
+        {
+            var dnaString = string.Join(",", dna);
+            DnaAnalyzed dnaAnalyzed = new DnaAnalyzed
+            {
+                IsMutant = isMutant,
+                Dna = dnaString,
+                DateAnalyzed = DateTime.Now
 
-    
+            };
+
+            await _dnaAnalyzedRepository.CreateAsync(dnaAnalyzed);
+            await _statsRepository.UpdateStatsAsync(dnaAnalyzed);
+
+        }
+
+
+
+
+
     }
 }

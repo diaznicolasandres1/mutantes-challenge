@@ -30,13 +30,16 @@ namespace Mutantes.API
 
             services.AddControllers().AddNewtonsoftJson(options =>
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-                       
-         
-            services.AddTransient<IDnaAnalyzerService, DnaAnalyzerService>();
+
             services.AddTransient<IMatrixUtilities, MatrixUtilities>();
+            services.AddTransient<IDnaAnalyzedRepository, DnaAnalyzedRepository>();
             services.AddTransient<IStatsRepository, StatsRepository>();
+            services.AddTransient<IDnaAnalyzerService, DnaAnalyzerService>();
             services.AddTransient<IStatsService, StatsService>();
-            
+
+
+
+
         }
 
        

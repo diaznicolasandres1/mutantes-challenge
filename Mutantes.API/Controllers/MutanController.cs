@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Mutantes.API.Utilities;
@@ -23,7 +24,7 @@ namespace Mutantes.API.Controllers
 
 
         [HttpPost]
-        public ActionResult Post([FromBody] DnaDto dnaRequest)
+        public async Task<ActionResult> Post([FromBody] DnaDto dnaRequest)
         {
 
             if (!ModelState.IsValid || dnaRequest.dna.Length < 4)
@@ -31,8 +32,8 @@ namespace Mutantes.API.Controllers
 
             try
             {
-                var dnaEntitie = new DnaEntitie {Dna = dnaRequest.dna };                   
-                bool isMutant = _dnaAnalyzerService.isMutant(dnaEntitie);
+                var dnaEntitie = new DnaEntitie {Dna = dnaRequest.dna };
+                bool isMutant = await _dnaAnalyzerService.IsMutantAsync(dnaEntitie);
 
                 if (isMutant)
                 {
@@ -46,6 +47,11 @@ namespace Mutantes.API.Controllers
             {
 
                 return CustomBadRequest(exception.Message);
+            }
+            catch (Exception e)
+            {
+
+                return InternalServerError(e.Message);
             }
 
         }
@@ -91,6 +97,19 @@ namespace Mutantes.API.Controllers
             };
             return StatusCode(403,response);
         }
+
+        private ObjectResult InternalServerError(string message)
+        {
+            var response = new MessageReponse
+            {
+                status = 500,
+                tittle = "INTERNAL ERROR ERROR",
+                message = message
+            };
+            return StatusCode(500, response);
+        }
+
+
 
 
 

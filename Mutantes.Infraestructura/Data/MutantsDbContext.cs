@@ -28,7 +28,7 @@ namespace Mutantes.Infraestructura.Data
         {
             modelBuilder.Entity<AnalysisStats>(entity =>
             {
-                entity.HasNoKey();
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.ToTable("analysis_stats");
 

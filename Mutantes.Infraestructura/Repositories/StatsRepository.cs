@@ -19,7 +19,33 @@ namespace Mutantes.Infraestructura.Repositories
         public async Task<AnalysisStats> GetStats()
         {
             var stats = await _context.AnalysisStats.FirstOrDefaultAsync();
+            if(stats == null)
+            {
+                stats = new AnalysisStats
+                {
+                    HumansFound = 0,
+                    MutantsFound = 0,
+
+                };
+            }
             return stats;
+        }
+
+        public async Task UpdateStatsAsync(DnaAnalyzed dnaAnalyzed)
+        {
+            var stats = await GetStats();
+
+            if (dnaAnalyzed.IsMutant)
+            {
+                stats.MutantsFound++;
+            }
+            else
+            {
+                stats.HumansFound++;
+            }
+             _context.Update(stats);
+
+            await _context.SaveChangesAsync();
         }
     }
 }

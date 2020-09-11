@@ -18,7 +18,7 @@ namespace Mutantes.Core.Services
 
         public async Task<StatsEntitie> GetStats()
         {
-            //Contemplar nulo y lo vamos subiendo, evitar exception por perfomance
+           
             var stats = await _statsRepository.GetStats();
             var statsEntitie = new StatsEntitie
             {
@@ -28,5 +28,7 @@ namespace Mutantes.Core.Services
 
             return statsEntitie;
         }
+
+
     }
 }

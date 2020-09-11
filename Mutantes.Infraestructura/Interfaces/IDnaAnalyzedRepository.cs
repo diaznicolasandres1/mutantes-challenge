@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Mutantes.Infraestructura.Interfaces
 {
-    public interface IStatsRepository
+   public interface IDnaAnalyzedRepository
     {
-        public  Task<AnalysisStats> GetStats();
-
-        public Task UpdateStatsAsync(DnaAnalyzed dnaAnalyzed);
+        public Task CreateAsync(DnaAnalyzed dnaAnalyzed);
     }
 }

@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 namespace Mutantes.Core.Interfaces
 {
     public interface IDnaAnalyzerService
-    {       
+    {
 
-        public  bool isMutant(DnaEntitie dnaEntitie);
-        
+        public  Task<bool> IsMutantAsync(DnaEntitie dnaEntitie);
+
+
     }
 }
