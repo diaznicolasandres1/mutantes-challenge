@@ -1,14 +1,12 @@
-using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mutantes.Core.Entities;
 using Mutantes.Core.Exceptions;
+using Mutantes.Core.Interfaces;
 using Mutantes.Core.Interfaces.Dna;
 using Mutantes.Core.Services;
 using Mutantes.Core.Utilities;
 using Mutantes.Infraestructura.Data;
-using Mutantes.Infraestructura.Interfaces;
-using Mutantes.Infraestructura.Repositories;
 using System;
 using System.Threading.Tasks;
 
@@ -24,6 +22,7 @@ namespace Mutantes.UnitTests
         //Mock<IDnaAnalyzedRepository> dnaAnalyzedRepository = new Mock<IDnaAnalyzedRepository>();
         //Mock<IStatsRepository> statsRepository = new Mock<IStatsRepository>();
 
+        Mock<ICacheService> cacheService = new Mock<ICacheService>();
         Mock<IDnaSaverService> dnaSaverService = new Mock<IDnaSaverService>();
 
         DnaAnalyzed test = new DnaAnalyzed()
@@ -39,18 +38,15 @@ namespace Mutantes.UnitTests
         {
             
             _matrixUtilities = new MatrixUtilities();
-
-            // statsRepository.Setup(x => x.UpdateStatsAsync(test)).Returns(Task.CompletedTask);
-
-            //            dnaAnalyzedRepository.Setup(x => x.CreateAsync(test)).Returns(Task.CompletedTask);
-
-            // var asd = statsRepository.Object;
-            // var xd = dnaAnalyzedRepository.Object;
+           
             string[]  dna = DnaListGenerator.DnaHumanMatriz();
 
             dnaSaverService.Setup(x => x.saveDnaResultAsync(dna, false)).Returns(Task.CompletedTask);
 
-            _dnaAnalizerService = new DnaAnalyzerService(_matrixUtilities, dnaSaverService.Object);
+            cacheService.Setup(x => x.CacheResponseAsync("key", new Random().NextDouble().ToString())).Returns(Task.CompletedTask);
+            cacheService.Setup(x => x.GetCachedResponseAsync("key")).Returns(Task.FromResult(default(string)));
+
+            _dnaAnalizerService = new DnaAnalyzerService(_matrixUtilities, dnaSaverService.Object, cacheService.Object);
 
        
 

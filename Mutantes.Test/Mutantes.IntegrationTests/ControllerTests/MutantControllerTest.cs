@@ -23,10 +23,9 @@ namespace Mutantes.IntegrationTest
         [TestMethod]
         public async Task Test001AnalizarUnAdnMutanteRetornaHttpStatus200Async()
         {
+           var apiResponse = await makeRequest(DnaListGenerator.DnaMutantMatrix());
 
-            var apiResponse = await makeRequest(DnaListGenerator.DnaMutantMatrix());
-
-            Assert.AreEqual(apiResponse.StatusCode, System.Net.HttpStatusCode.OK);
+         Assert.AreEqual(apiResponse.StatusCode, System.Net.HttpStatusCode.OK);
         }
 
 

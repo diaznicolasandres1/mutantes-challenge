@@ -23,7 +23,9 @@ namespace Mutantes.Core.Services
             var statsEntitie = new StatsEntitie
             {
                 count_human_dna = stats.HumansFound,
-                count_mutant_dna = stats.MutantsFound
+                count_mutant_dna = stats.MutantsFound,
+                ratio = stats.HumansFound != 0 ? (double)decimal.Divide(stats.MutantsFound, stats.HumansFound) : 0.0
+                
             };
 
             return statsEntitie;

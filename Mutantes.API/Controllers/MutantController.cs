@@ -1,14 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-
-using StackExchange.Redis;
+﻿using Microsoft.AspNetCore.Mvc;
 using Mutantes.API.Utilities;
 using Mutantes.Core.DTOs;
 using Mutantes.Core.Entities;
 using Mutantes.Core.Exceptions;
 using Mutantes.Core.Interfaces;
-using Microsoft.EntityFrameworkCore.Internal;
+using System;
+using System.Threading.Tasks;
 
 namespace Mutantes.API.Controllers
 {
@@ -17,7 +14,7 @@ namespace Mutantes.API.Controllers
     public class MutantController : Controller
     {
         IDnaAnalyzerService _dnaAnalyzerService;
-        ICacheService _redisCache;
+        
 
 
 

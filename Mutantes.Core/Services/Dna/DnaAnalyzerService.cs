@@ -44,8 +44,11 @@ namespace Mutantes.Core.Services
             string[] dna = dnaEntitie.Dna;
 
             bool isMutantResult = false;
-            string dnaString = string.Join(",", dna);
-           
+
+            if (dna == null) throw new NullDnaParameterException();
+
+            string dnaString = string.Join(",",dna);
+
             //Chequeo cache por su key: dnaString.
             var resultCache = await _cacheService.GetCachedResponseAsync(dnaString);
             if(resultCache != null)
@@ -58,8 +61,6 @@ namespace Mutantes.Core.Services
                 await _cacheService.CacheResponseAsync(dnaString, isMutantResult.ToString());
             }
 
-
-
             try
             {
                 await _dnaSaverService.saveDnaResultAsync(dna, isMutantResult);
@@ -71,6 +72,7 @@ namespace Mutantes.Core.Services
 
 
             }
+
             return isMutantResult;
 
 

@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Mutantes.Core\Mutantes.Core.csproj" />
     <ProjectReference Include="..\Mutantes.Infraestructura\Mutantes.Infraestructura.csproj" />
+    <ProjectReference Include="..\Mutantes.Test\Mutantes.UnitTests\Mutantes.UnitTests.csproj" />
   </ItemGroup>
 
 </Project>

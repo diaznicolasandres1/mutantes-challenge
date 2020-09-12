@@ -19,7 +19,7 @@ namespace Mutantes.Infraestructura.Repositories
         }
         public async Task<AnalysisStats> GetStats()
         {
-            /*var stats = await _context.AnalysisStats.FirstOrDefaultAsync();
+           var stats = await _context.AnalysisStats.FirstOrDefaultAsync();
            
 
              if(stats == null)
@@ -32,34 +32,8 @@ namespace Mutantes.Infraestructura.Repositories
                  };
              }
              return stats;
-            */
+         
 
-            var humanos = 0;
-            var mutantes = 0;
-            var list = _context.DnaAnalyzed.ToList();
-
-            foreach (var lis in list)
-            {
-                if (lis.IsMutant)
-                {
-                    humanos++;
-                }
-                else
-                {
-                    mutantes++;
-                }
-            }
-          
-
-
-            var stats = new AnalysisStats
-            {
-                HumansFound = humanos,
-                MutantsFound = mutantes,
-
-            };
-           await Task.Delay(1);
-            return stats;
       
     }
 
