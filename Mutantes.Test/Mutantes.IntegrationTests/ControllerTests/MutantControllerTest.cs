@@ -33,8 +33,7 @@ namespace Mutantes.IntegrationTest
 
         private MutantsDbContext _context;
     
-        private IStatsRepository _statsRepository;
-        private IStatsService _statsService;
+        private IStatsRepository _statsRepository;        
         private IDnaSaverService _dnaSaverService;
         private IDnaAnalyzedRepository _dnaAnalyzedRepository;
         private MutantController _mutantController;
@@ -62,7 +61,7 @@ namespace Mutantes.IntegrationTest
             
             _dnaAnalyzedRepository = new DnaAnalyzedRepository(_context);
             _statsRepository = new StatsRepository(_context);
-            _statsService = new StatsService(_statsRepository);
+            
             _dnaSaverService = new DnaSaverService(_dnaAnalyzedRepository, _cacheService.Object,_statsRepository);
             _dnaAnalyzerService = new DnaAnalyzerService(_dnaSaverService, _cacheService.Object, _dnaAnalyzerAlgorithm);
 
@@ -78,7 +77,7 @@ namespace Mutantes.IntegrationTest
         public async Task Test001AnalizarUnAdnMutanteRetornaHttpStatus200()
         {
 
-            ObjectResult objectResult = await makePostRequest(DnaListGenerator.DnaMutantMatrix());
+            ObjectResult objectResult = await makePostRequest(DnaListGenerator.DnaMutantMatrix()).ConfigureAwait(false);
 
             Assert.AreEqual(objectResult.StatusCode, StatusCodes.Status200OK);
             

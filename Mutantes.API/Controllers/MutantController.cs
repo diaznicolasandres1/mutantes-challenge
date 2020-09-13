@@ -13,7 +13,7 @@ namespace Mutantes.API.Controllers
     [ApiController]
     public class MutantController : Controller
     {
-        IDnaAnalyzerService _dnaAnalyzerService;
+        readonly IDnaAnalyzerService _dnaAnalyzerService;
         
 
 

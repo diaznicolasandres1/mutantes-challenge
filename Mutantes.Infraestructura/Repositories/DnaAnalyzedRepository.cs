@@ -9,7 +9,7 @@ namespace Mutantes.Infraestructura.Repositories
 {
     public class DnaAnalyzedRepository : IDnaAnalyzedRepository
     {
-        private MutantsDbContext _context;
+       readonly  private MutantsDbContext _context;
       
 
         public DnaAnalyzedRepository(MutantsDbContext context)

@@ -12,8 +12,8 @@ namespace Mutantes.Core.Services.Dna
 {
     public class DnaSaverService : IDnaSaverService
     {
-        IDnaAnalyzedRepository _dnaAnalyzedRepository;
-        IStatsRepository _statsRepository;
+        readonly IDnaAnalyzedRepository _dnaAnalyzedRepository;
+        readonly IStatsRepository _statsRepository;
         ICacheService _cacheService;
 
         public DnaSaverService(IDnaAnalyzedRepository dnaAnalyzedRepository, ICacheService cacheService, IStatsRepository statsRepository)
@@ -25,7 +25,10 @@ namespace Mutantes.Core.Services.Dna
         }
         public async Task saveDnaResultAsync(string[] dna, bool isMutant)
         {
-            if (dna == null) throw new NullDnaParameterException();
+            if (dna == null)
+            {
+                throw new NullDnaParameterException();
+            }
 
             var dnaString = string.Join(",", dna);
             DnaAnalyzed dnaAnalyzed = new DnaAnalyzed

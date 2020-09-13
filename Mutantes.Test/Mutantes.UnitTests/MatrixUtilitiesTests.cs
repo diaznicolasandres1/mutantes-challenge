@@ -11,7 +11,7 @@ namespace Mutantes.UnitTests
     public class MatrixUtilitiesTests
     {
 
-        MatrixUtilities utilites = new MatrixUtilities();
+        readonly MatrixUtilities utilites = new MatrixUtilities();
 
         [TestMethod]
         [ExpectedException(typeof(NonSquareMatrixException))]

@@ -13,7 +13,7 @@ namespace Mutantes.Core.Utilities
         private int consecLettersNeeded = 4;
         private int matrixLenght;
 
-        IMatrixUtilities _matrixUtilities;
+        readonly IMatrixUtilities _matrixUtilities;
         public DnaAnalyzerAlgorithm(IMatrixUtilities matrixUtilities)
         {
             _matrixUtilities = matrixUtilities;
@@ -50,7 +50,7 @@ namespace Mutantes.Core.Utilities
 
         }
 
-        public bool lookForValidRepetitions(char[,] matriz, int oldRow, int oldCol, int actualRow, int actualCol, int lettersFound, char nextLetter)
+        private bool lookForValidRepetitions(char[,] matriz, int oldRow, int oldCol, int actualRow, int actualCol, int lettersFound, char nextLetter)
         {
             //Al ser un metodo recursivo primero planteo los casos borde.
 

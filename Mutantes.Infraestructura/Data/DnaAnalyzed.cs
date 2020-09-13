@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Mutantes.Infraestructura.Data
 {
-    public partial class DnaAnalyzed
+    public  class DnaAnalyzed
     {
         public int Id { get; set; }
         public string Dna { get; set; }

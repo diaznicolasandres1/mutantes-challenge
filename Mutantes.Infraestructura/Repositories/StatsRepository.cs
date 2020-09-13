@@ -11,7 +11,7 @@ namespace Mutantes.Infraestructura.Repositories
 {
     public class StatsRepository : IStatsRepository
     {
-        MutantsDbContext _context;
+        readonly MutantsDbContext _context;
 
         public StatsRepository(MutantsDbContext context)
         {
@@ -39,11 +39,8 @@ namespace Mutantes.Infraestructura.Repositories
 
         public async Task UpdateStatsAsync(DnaAnalyzed dnaAnalyzed)
         {
-            if(dnaAnalyzed == null)
-            {
-                throw new Exception("Null DnaAnalyzed Paramater");
-            }
-            var stats = await GetStats();
+           
+            var stats = await GetStats().ConfigureAwait(false);
 
             if (dnaAnalyzed.IsMutant)
             {
