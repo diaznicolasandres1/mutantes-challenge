@@ -8,7 +8,7 @@ namespace Mutantes.API.Controllers
     [ApiController]
     public class StatsController : ControllerBase
     {
-        IStatsService _statsService;
+        readonly IStatsService _statsService;
         public StatsController(IStatsService statsService)
         {
             _statsService = statsService;

@@ -22,7 +22,7 @@ namespace Mutantes.API
 {
     public class Startup
     {
-        IConfiguration _configuration;
+        readonly IConfiguration _configuration;
         public Startup(IConfiguration configuration)
         {
             _configuration = configuration;

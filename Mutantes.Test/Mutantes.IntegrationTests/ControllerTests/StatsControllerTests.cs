@@ -26,7 +26,7 @@ namespace Mutantes.IntegrationTest
         private IStatsService _statsService;       
         private IDnaSaverService _dnaSaverService;
         private IDnaAnalyzedRepository _dnaAnalyzedRepository;
-        private Mock<ICacheService> _cacheService;
+        readonly private Mock<ICacheService> _cacheService;
 
         public StatsControllerTests()
         {

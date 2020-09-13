@@ -9,8 +9,8 @@ namespace Mutantes.Core.Utilities
 {
     public class DnaAnalyzerAlgorithm : IDnaAnalyzerAlgorithm
     {
-        private int sequencesNeeded = 2;
-        private int consecLettersNeeded = 4;
+        readonly private int sequencesNeeded = 2;
+        readonly private int consecLettersNeeded = 4;
         private int matrixLenght;
 
         readonly IMatrixUtilities _matrixUtilities;
@@ -39,7 +39,10 @@ namespace Mutantes.Core.Utilities
                     if (lookForValidRepetitions(matrix, i, j, i, j, 0, currentChar))
                     {
                         cantAdnsFound++;
-                        if (cantAdnsFound.Equals(sequencesNeeded)) return true;
+                        if (cantAdnsFound.Equals(sequencesNeeded))
+                        {
+                            return true;
+                        }
 
                     }
                 }
@@ -60,7 +63,10 @@ namespace Mutantes.Core.Utilities
             }
 
             //Limites del tablero y que no sea la letra buscada
-            if (!isValidCoord(actualRow, actualCol) || !matriz[actualRow, actualCol].Equals(nextLetter)) return false;
+            if (!isValidCoord(actualRow, actualCol) || !matriz[actualRow, actualCol].Equals(nextLetter))
+            {
+                return false;
+            }
 
             bool resultado = false;
 

@@ -39,7 +39,7 @@ namespace Mutantes.IntegrationTest
         private MutantController _mutantController;
         private IDnaAnalyzerService _dnaAnalyzerService;
         private MatrixUtilities _matrixUtitilities;
-        private Mock<ICacheService> _cacheService;
+        readonly  private Mock<ICacheService> _cacheService;
         private IDnaAnalyzerAlgorithm _dnaAnalyzerAlgorithm;
         
         public MutantControllerTest()
@@ -91,7 +91,7 @@ namespace Mutantes.IntegrationTest
         public async Task Test002AnalizarUnAdnHumanoRetornaHttpStatus403()
         {
 
-            ObjectResult objectResult = await makePostRequest(DnaListGenerator.DnaHumanMatriz());
+            ObjectResult objectResult = await makePostRequest(DnaListGenerator.DnaHumanMatriz()).ConfigureAwait(false);
 
 
             Assert.AreEqual(objectResult.StatusCode, StatusCodes.Status403Forbidden);
@@ -107,7 +107,7 @@ namespace Mutantes.IntegrationTest
         [Test]
         public async Task Test003AnalizarMatrizConCharInvalidoRetornaHttpStatus400()
         {
-            ObjectResult objectResult = await makePostRequest(DnaListGenerator.InvalidCharMatrix());
+            ObjectResult objectResult = await makePostRequest(DnaListGenerator.InvalidCharMatrix()).ConfigureAwait(false);
 
 
             Assert.AreEqual(objectResult.StatusCode, StatusCodes.Status400BadRequest);
@@ -121,7 +121,7 @@ namespace Mutantes.IntegrationTest
         [Test]
         public async Task Test004RecibirUnParametroNuloRetornaUnsupportedMediaType()
         {
-            ObjectResult objectResult = await makePostRequest(null);
+            ObjectResult objectResult = await makePostRequest(null).ConfigureAwait(false);
 
 
             Assert.AreEqual(objectResult.StatusCode, StatusCodes.Status415UnsupportedMediaType);
@@ -134,7 +134,7 @@ namespace Mutantes.IntegrationTest
         [Test]
         public async Task Test005RecibirMatrixVaciaRetornaBadRequest()
         {
-            ObjectResult objectResult = await makePostRequest(DnaListGenerator.EmptyMatrix());
+            ObjectResult objectResult = await makePostRequest(DnaListGenerator.EmptyMatrix()).ConfigureAwait(false);
 
 
             Assert.AreEqual(objectResult.StatusCode, StatusCodes.Status400BadRequest);

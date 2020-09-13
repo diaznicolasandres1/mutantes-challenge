@@ -10,7 +10,7 @@ namespace Mutantes.Core.Services
 {
     public class StatsService : IStatsService
     {
-        IStatsRepository _statsRepository;
+        readonly IStatsRepository _statsRepository;
         public StatsService(IStatsRepository statsRepository)
         {
             _statsRepository = statsRepository;

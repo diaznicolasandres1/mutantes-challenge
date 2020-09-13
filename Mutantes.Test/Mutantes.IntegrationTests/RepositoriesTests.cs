@@ -42,8 +42,7 @@ namespace Mutantes.IntegrationTest
         [Test]
         public async Task Test001CalcularStatsSinRegistrosDevuelveTodosLosValoresCero()
         {
-            //_context.Database.EnsureDeleted();
-
+          
             var result = await  _statsRepository.GetStats();
             Assert.AreEqual(result.HumansFound, 0);
             Assert.AreEqual(result.MutantsFound, 0);
@@ -76,8 +75,8 @@ namespace Mutantes.IntegrationTest
         public async Task Test003UpdateoLaCantidadDeHumanosEncontradosYLosStatsDevuelveCantHumanos1()
         {
             var result = await _statsRepository.GetStats();
-            
 
+            Assert.AreEqual(result.HumansFound, 0);
 
             DnaAnalyzed dnaAnalizded = new DnaAnalyzed()
             {

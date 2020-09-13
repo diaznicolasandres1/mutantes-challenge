@@ -16,16 +16,16 @@ namespace Mutantes.UnitTests
     [TestClass]
     public class DnaAnalyzerServiceTest
     {
-        IMatrixUtilities _matrixUtilities;
-        IDnaAnalyzerAlgorithm _dnaAnalyzerAlgorithm;
-        DnaAnalyzerService _dnaAnalizerService;
+        readonly IMatrixUtilities _matrixUtilities;
+        readonly IDnaAnalyzerAlgorithm _dnaAnalyzerAlgorithm;
+        readonly  DnaAnalyzerService _dnaAnalizerService;
 
 
-        Mock<ICacheService> cacheService = new Mock<ICacheService>();
-        Mock<IDnaSaverService> dnaSaverService = new Mock<IDnaSaverService>();
+        readonly  Mock<ICacheService> cacheService = new Mock<ICacheService>();
+        readonly  Mock<IDnaSaverService> dnaSaverService = new Mock<IDnaSaverService>();
         
 
-        DnaAnalyzed test = new DnaAnalyzed()
+        readonly DnaAnalyzed test = new DnaAnalyzed()
         {
             DateAnalyzed = DateTime.Now,
             Dna = "TESTDNA",

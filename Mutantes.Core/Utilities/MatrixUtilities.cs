@@ -10,7 +10,7 @@ namespace Mutantes.Core.Utilities
     {
 
 
-        List<char> posibleLetters = new List<char>
+        readonly List<char> posibleLetters = new List<char>
         {
             'A','T','C','G'
         };

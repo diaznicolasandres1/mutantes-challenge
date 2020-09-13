@@ -6,7 +6,7 @@ namespace Mutantes.Core.Entities
 {
     public class StatsEntitie
     {
-        public StatsEntitie()
+       public StatsEntitie()
         {
             
         }

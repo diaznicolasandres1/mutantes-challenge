@@ -18,10 +18,7 @@ namespace Mutantes.Infraestructura.Data
         public virtual DbSet<AnalysisStats> AnalysisStats { get; set; }
         public virtual DbSet<DnaAnalyzed> DnaAnalyzed { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
-        {
-
-        }
+        
           
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)

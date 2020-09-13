@@ -23,9 +23,9 @@ namespace Mutantes.Core.Services
 
 
 
-        IDnaAnalyzerAlgorithm _analyzerAlgorithm;
-        IDnaSaverService _dnaSaverService;
-        ICacheService _cacheService;
+        readonly IDnaAnalyzerAlgorithm _analyzerAlgorithm;
+        readonly IDnaSaverService _dnaSaverService;
+        readonly ICacheService _cacheService;
 
 
         public DnaAnalyzerService( IDnaSaverService dnaSaverService, ICacheService cacheService, IDnaAnalyzerAlgorithm analyzerAlgorithm)
@@ -39,12 +39,18 @@ namespace Mutantes.Core.Services
 
         public async Task<bool> IsMutantAsync(DnaEntitie dnaEntitie)
         {
-            if (dnaEntitie == null ) throw new NullParameterException("Null paramater, please use a valid request.");
+            if (dnaEntitie == null)
+            {
+                throw new NullParameterException("Null paramater, please use a valid request.");
+            }
             string[] dna = dnaEntitie.Dna;
 
             bool isMutantResult = false;
 
-            if (dna == null) throw new NullDnaParameterException();
+            if (dna == null)
+            {
+                throw new NullDnaParameterException();
+            }
 
             string dnaString = string.Join(",",dna);
 

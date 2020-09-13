@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Mutantes.Core.Exceptions
 {
-    class ErrorSavingResultException : Exception
+    public class ErrorSavingResultException : Exception
     {
 
         public ErrorSavingResultException()

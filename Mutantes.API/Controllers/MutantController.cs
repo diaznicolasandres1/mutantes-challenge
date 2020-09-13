@@ -28,11 +28,15 @@ namespace Mutantes.API.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] DnaDto dnaRequest)
         {
-            if (dnaRequest.dna == null) return  UnsupportedMediaType("Null DNA");
+            if (dnaRequest.dna == null)
+            {
+                return UnsupportedMediaType("Null DNA");
+            }
             
            if (!ModelState.IsValid || dnaRequest.dna.Length < 4)
+           {       
                 return CustomBadRequest("Invalid DNA: Empty or invalid length, minimun matrix size is 4x4");
-
+           }
             try
             {             
                                 
