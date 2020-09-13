@@ -34,9 +34,9 @@ namespace Mutantes.API.Controllers
      
         [HttpPost]      
         //Annotations & filters para documentacion swagger, pongo los mas importantes
-        [SwaggerResponseExample(200, typeof(OkMutantExample))][SwaggerResponse(200, "", typeof(OkMutantExample))]
-        [SwaggerResponseExample(403, typeof(HumanExample))][SwaggerResponse(403, "", typeof(HumanExample))]
-        [SwaggerResponseExample(400, typeof(BadRequestResponseExample))][SwaggerResponse(400, "", typeof(BadRequestResponseExample))]
+        [SwaggerResponseExample(200, typeof(OkMutantExample))][SwaggerResponse(200, "Mutant Detected", typeof(OkMutantExample))]
+        [SwaggerResponseExample(403, typeof(HumanExample))][SwaggerResponse(403, "Human detected", typeof(HumanExample))]
+        [SwaggerResponseExample(400, typeof(BadRequestResponseExample))][SwaggerResponse(400, "BadRequest", typeof(BadRequestResponseExample))]
 
         public async Task<IActionResult> Post([FromBody] DnaDto dnaRequest)
         {

@@ -26,7 +26,7 @@ namespace Mutantes.API.Controllers
        
         [HttpGet]
         [SwaggerResponseExample(200, typeof(StatsResponseExample))]
-        [SwaggerResponse(200, "", typeof(StatsResponseExample))]
+        [SwaggerResponse(200, "Se han recuperado los Stats", typeof(StatsResponseExample))]
         public async Task<ActionResult> GetStats()
         {
             var stats = await _statsService.GetStats();

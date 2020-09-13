@@ -54,7 +54,7 @@ namespace Mutantes.API
                     
                     Title = "Mutants API",
                     Version = "v1",
-                });
+                });               
                 x.ExampleFilters();
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPAth = Path.Combine(AppContext.BaseDirectory, xmlFile);

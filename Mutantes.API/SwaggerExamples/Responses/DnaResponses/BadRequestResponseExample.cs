@@ -12,7 +12,8 @@ namespace Mutantes.API.SwaggerExamples.Responses.DnaResponses
     {
         public MessageReponse GetExamples()
         {
-            return MessageReponseHandler.CustomBadRequest("Invalid DNA: Empty or invalid length, minimun matrix size is 4x4");
+            var response = MessageReponseHandler.CustomBadRequest("Invalid DNA: Empty or invalid length, minimun matrix size is 4x4");
+            return response;
         }
     }
 }
