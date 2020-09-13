@@ -9,6 +9,7 @@ using Mutantes.Core.DTOs;
 using Mutantes.Core.Entities;
 using Mutantes.Core.Interfaces;
 using Mutantes.Core.Interfaces.Dna;
+using Mutantes.Core.Interfaces.Utilities;
 using Mutantes.Core.Services;
 using Mutantes.Core.Services.Dna;
 using Mutantes.Core.Utilities;
@@ -40,6 +41,8 @@ namespace Mutantes.IntegrationTest
         private IDnaAnalyzerService _dnaAnalyzerService;
         private MatrixUtilities _matrixUtitilities;
         private Mock<ICacheService> _cacheService;
+        private IDnaAnalyzerAlgorithm _dnaAnalyzerAlgorithm;
+        
         public MutantControllerTest()
         {
             _cacheService = new Mock<ICacheService>();
@@ -54,13 +57,14 @@ namespace Mutantes.IntegrationTest
             var dbContextOptions = new DbContextOptionsBuilder<MutantsDbContext>().UseInMemoryDatabase("Test");
             _context = new MutantsDbContext(dbContextOptions.Options);
             _context.Database.EnsureCreated();
-
             _matrixUtitilities = new MatrixUtilities();
+            _dnaAnalyzerAlgorithm = new DnaAnalyzerAlgorithm(_matrixUtitilities);
+            
             _dnaAnalyzedRepository = new DnaAnalyzedRepository(_context);
             _statsRepository = new StatsRepository(_context);
             _statsService = new StatsService(_statsRepository);
-            _dnaSaverService = new DnaSaverService(_dnaAnalyzedRepository, _statsRepository);
-            _dnaAnalyzerService = new DnaAnalyzerService(_matrixUtitilities, _dnaSaverService, _cacheService.Object);
+            _dnaSaverService = new DnaSaverService(_dnaAnalyzedRepository, _cacheService.Object,_statsRepository);
+            _dnaAnalyzerService = new DnaAnalyzerService(_dnaSaverService, _cacheService.Object, _dnaAnalyzerAlgorithm);
 
 
             _mutantController = new MutantController(_dnaAnalyzerService);

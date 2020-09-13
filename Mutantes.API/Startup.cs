@@ -44,6 +44,7 @@ namespace Mutantes.API
             services.AddTransient<IDnaAnalyzerAlgorithm, DnaAnalyzerAlgorithm>();
             services.AddSingleton<IConnectionMultiplexer>(x => ConnectionMultiplexer.Connect("muntantes-diaznicolas.redis.cache.windows.net:6380,password=HeXWGH4sSqpK08XT9N3RpTfB9aVz3SqjHt7oX3OM8Xk=,ssl=True,abortConnect=False"));
             services.AddTransient<ICacheService, RedisCacheService>();
+            services.AddTransient<IDnaAnalyzerAlgorithm, DnaAnalyzerAlgorithm>();
 
            
 
