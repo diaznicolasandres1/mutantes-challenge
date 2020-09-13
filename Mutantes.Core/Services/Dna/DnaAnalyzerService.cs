@@ -71,7 +71,7 @@ namespace Mutantes.Core.Services
                 await _dnaSaverService.saveDnaResultAsync(dna, isMutantResult);
                 
             }  
-            catch (Exception e)
+            catch (Exception )
             {
                 throw new ErrorSavingResultException("An unexpected error occurred, please try again");
 
