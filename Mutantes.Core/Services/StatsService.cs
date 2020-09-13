@@ -20,15 +20,18 @@ namespace Mutantes.Core.Services
         {
            
             var stats = await _statsRepository.GetStats();
-            var statsEntitie = new StatsEntitie
+            var ratio = stats.MutantsFound != 0 ? (double)decimal.Divide(stats.HumansFound, stats.MutantsFound) : stats.HumansFound;
+
+            var stataEntitie = new StatsEntitie
             {
                 count_human_dna = stats.HumansFound,
                 count_mutant_dna = stats.MutantsFound,
-                ratio = stats.MutantsFound != 0 ? (double)decimal.Divide(stats.HumansFound, stats.MutantsFound) : stats.HumansFound
+                ratio = Math.Round(ratio, 3)
                 
             };
 
-            return statsEntitie;
+
+            return stataEntitie;
         }
 
 

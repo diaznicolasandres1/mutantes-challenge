@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Mutantes.API.Controllers;
+using Mutantes.Core.DTOs;
 using Mutantes.Core.Entities;
 using Mutantes.Core.Interfaces;
 using Mutantes.Core.Interfaces.Dna;
@@ -62,7 +63,7 @@ namespace Mutantes.IntegrationTest
         public async Task Test001SiNoHayNingunStatsPrevioDevuelveTodo0Async()
         {
             OkObjectResult actionResult = (OkObjectResult )await  _statsController.GetStats();
-            var value = (StatsEntitie)actionResult.Value;
+            var value = (StatsDto)actionResult.Value;
 
             Assert.AreEqual(0, value.count_human_dna);
             Assert.AreEqual(0, value.count_mutant_dna);
@@ -79,7 +80,7 @@ namespace Mutantes.IntegrationTest
 
 
             OkObjectResult actionResult = (OkObjectResult)await _statsController.GetStats();
-            var value = (StatsEntitie)actionResult.Value;
+            var value = (StatsDto)actionResult.Value;
 
             Assert.AreEqual(0, value.count_human_dna);
             Assert.AreEqual(1, value.count_mutant_dna);
@@ -95,7 +96,7 @@ namespace Mutantes.IntegrationTest
 
 
             OkObjectResult actionResult = (OkObjectResult)await _statsController.GetStats();
-            var value = (StatsEntitie)actionResult.Value;
+            var value = (StatsDto)actionResult.Value;
 
             Assert.AreEqual(1, value.count_human_dna);
             Assert.AreEqual(0, value.count_mutant_dna);
@@ -112,7 +113,7 @@ namespace Mutantes.IntegrationTest
             await _dnaSaverService.saveDnaResultAsync(DnaListGenerator.DnaMutantMatrix(), true);
 
             OkObjectResult actionResult = (OkObjectResult)await _statsController.GetStats();
-            var value = (StatsEntitie)actionResult.Value;
+            var value = (StatsDto)actionResult.Value;
 
             Assert.AreEqual(2, value.count_human_dna);
             Assert.AreEqual(1, value.count_mutant_dna);
@@ -129,7 +130,7 @@ namespace Mutantes.IntegrationTest
             await _dnaSaverService.saveDnaResultAsync(DnaListGenerator.DnaMutantMatrix(), true);
 
             OkObjectResult actionResult = (OkObjectResult)await _statsController.GetStats();
-            var value = (StatsEntitie)actionResult.Value;
+            var value = (StatsDto)actionResult.Value;
 
             Assert.AreEqual(1, value.count_human_dna);
             Assert.AreEqual(2, value.count_mutant_dna);

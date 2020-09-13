@@ -1,10 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Mutantes.API.Models;
+using Mutantes.API.SwaggerExamples.Responses.DnaResponses;
 using Mutantes.API.Utilities;
 using Mutantes.Core.DTOs;
 using Mutantes.Core.Entities;
 using Mutantes.Core.Exceptions;
 using Mutantes.Core.Interfaces;
+using Swashbuckle.AspNetCore.Annotations;
+using Swashbuckle.AspNetCore.Filters;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Mutantes.API.Controllers
@@ -21,12 +27,18 @@ namespace Mutantes.API.Controllers
         public MutantController(IDnaAnalyzerService dnaAnalyzerService)
         {
             _dnaAnalyzerService = dnaAnalyzerService;
-          
+
         }
 
 
-        [HttpPost]
-        public async Task<ActionResult> Post([FromBody] DnaDto dnaRequest)
+     
+        [HttpPost]      
+        //Annotations & filters para documentacion swagger, pongo los mas importantes
+        [SwaggerResponseExample(200, typeof(OkMutantExample))][SwaggerResponse(200, "", typeof(OkMutantExample))]
+        [SwaggerResponseExample(403, typeof(HumanExample))][SwaggerResponse(403, "", typeof(HumanExample))]
+        [SwaggerResponseExample(400, typeof(BadRequestResponseExample))][SwaggerResponse(400, "", typeof(BadRequestResponseExample))]
+
+        public async Task<IActionResult> Post([FromBody] DnaDto dnaRequest)
         {
             if (dnaRequest.dna == null)
             {
@@ -75,11 +87,7 @@ namespace Mutantes.API.Controllers
 
         private BadRequestObjectResult CustomBadRequest(string message)
         {
-           var response = new MessageReponse{
-                status = 400,
-                tittle =  "Bad Request.",
-                message = message
-            };
+            var response = MessageReponseHandler.CustomBadRequest(message);
             return BadRequest(response);
 
         }
@@ -87,45 +95,26 @@ namespace Mutantes.API.Controllers
 
         private OkObjectResult MutantFound()
         {
-            var response = new MessageReponse
-            {
-                status = 200,
-                tittle = "Dna analisis result",
-                message = "DNA corresponds to a mutant"
-            };
+            var response = MessageReponseHandler.MutantFound();
             return Ok(response);
         }
 
         private ObjectResult HumanFound()
         {
-            var response = new MessageReponse
-            {
-                status = 403,
-                tittle = "Dna analisis result",
-                message = "DNA corresponds to a human"
-            };
+            var response = MessageReponseHandler.HumanFound();
             return StatusCode(403,response);
         }
 
         private ObjectResult InternalServerError(string message)
         {
-            var response = new MessageReponse
-            {
-                status = 500,
-                tittle = "Internal server errro",
-                message = message
-            };
+            var response = MessageReponseHandler.InternalServerError(message);
             return StatusCode(500, response);
         }
 
         private ObjectResult UnsupportedMediaType(string message)
         {
-            var response = new MessageReponse
-            {
-                status = 415,
-                tittle = "UnsupportedMediaType",
-                message = message
-            };
+            var response = MessageReponseHandler.UnsupportedMediaType(message);
+
             return StatusCode(415, response);
         }
 

@@ -14,6 +14,7 @@ using Mutantes.Infraestructura.Data;
 using Mutantes.Infraestructura.Interfaces;
 using Mutantes.Infraestructura.Repositories;
 using StackExchange.Redis;
+using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.IO;
 using System.Reflection;
@@ -47,23 +48,28 @@ namespace Mutantes.API
             services.AddTransient<IDnaAnalyzerAlgorithm, DnaAnalyzerAlgorithm>();
             services.AddSwaggerGen(x =>
             {
+               
                 x.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
                 {
+                    
                     Title = "Mutants API",
                     Version = "v1",
                 });
+                x.ExampleFilters();
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPAth = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 x.IncludeXmlComments(xmlPAth);
             });
+
+            services.AddSwaggerExamplesFromAssemblyOf<Startup>();
+            
         }
-            
-            
-           
+
+
 
            
 
-        }
+  
 
        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -76,7 +82,16 @@ namespace Mutantes.API
 
             app.UseRouting();
 
-            
+          
+           
+
+            app.UseSwagger(option => { option.RouteTemplate = "swagger/{documentName}/swagger.json"; });
+
+            app.UseSwaggerUI(option =>
+            {
+                option.SwaggerEndpoint("v1/swagger.json", "Mutants API");
+            });
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
