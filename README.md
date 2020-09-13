@@ -10,6 +10,7 @@ Este challenge es parte del proceso de seleccion en la empresa Mercado Libre.
 * [Resolucion](#resolucion)
 
 * [DocumentacionApi](#documentacionapi)
+* [Instalacion](#instalacion)
 
 
 
@@ -105,9 +106,45 @@ Para tener una mejor performance usamos redis como base de datos cache, no tiene
 
 
  
-<img src="https://blog.ehcgroup.io/wp-content/uploads/2019/08/What-is-an-API.png" width="30%">
+<img src="https://github.com/diaznicolasandres1/mutantes-challenge/blob/master/Doc/Imagenes/Api.png?raw=true" width="40%">
 
-La documentacion de los endpoits, request, response se encuentra en:
+La documentacion de los endpoits, request y response se encuentra en:
 [Mutants-API-Swagger](https://diaznicolasandres.com/swagger/index.html)
+
+
+```
+http://diaznicolasandres.com/api/mutant
+
+```
+```
+http://diaznicolasandres.com/api/stats
+```
+
+
+## Instalacion
+Es necesario tener instalado   [NET CORE 3.1 SDK](https://dotnet.microsoft.com/download/dotnet-core/thank-you/sdk-3.1.402-windows-x64-installer)
+
+1. Clonar el repo.
+```sh
+git clone https://github.com/diaznicolasandres1/mutantes-challenge.git
+```
+
+2. Pararse en el root donde se clono el repo
+
+3. Para ejecutar la API localmente 
+```sh
+dotnet build
+dotnet run
+```
+4. Ejecutar unit testes
+```sh
+cd Mutantes.Test\Mutantes.UnitTests
+dotnet test
+```
+5. Ejecutar tests de integracion
+```sh
+cd ..
+cd Mutantes.IntegrationTests
+dotnet test
 
 
