@@ -28,8 +28,9 @@ namespace Mutantes.API.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] DnaDto dnaRequest)
         {
-
-            if (!ModelState.IsValid || dnaRequest.dna.Length < 4)
+            if (dnaRequest.dna == null) return  UnsupportedMediaType("Null DNA");
+            
+           if (!ModelState.IsValid || dnaRequest.dna == null || dnaRequest.dna.Length < 4)
                 return CustomBadRequest("Invalid DNA: Empty or invalid length, minimun matrix size is 4x4");
 
             try
@@ -107,12 +108,22 @@ namespace Mutantes.API.Controllers
             var response = new MessageReponse
             {
                 status = 500,
-                tittle = "INTERNAL ERROR ERROR",
+                tittle = "Internal server errro",
                 message = message
             };
             return StatusCode(500, response);
         }
 
+        private ObjectResult UnsupportedMediaType(string message)
+        {
+            var response = new MessageReponse
+            {
+                status = 415,
+                tittle = "UnsupportedMediaType",
+                message = message
+            };
+            return StatusCode(415, response);
+        }
 
 
 

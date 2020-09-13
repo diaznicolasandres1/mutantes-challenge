@@ -1,4 +1,5 @@
-﻿using Mutantes.Core.Interfaces.Dna;
+﻿using Mutantes.Core.Exceptions;
+using Mutantes.Core.Interfaces.Dna;
 using Mutantes.Infraestructura.Data;
 using Mutantes.Infraestructura.Interfaces;
 using System;
@@ -21,6 +22,8 @@ namespace Mutantes.Core.Services.Dna
         }
         public async Task saveDnaResultAsync(string[] dna, bool isMutant)
         {
+            if (dna == null) throw new NullDnaParameterException();
+
             var dnaString = string.Join(",", dna);
             DnaAnalyzed dnaAnalyzed = new DnaAnalyzed
             {
@@ -34,9 +37,5 @@ namespace Mutantes.Core.Services.Dna
             await _statsRepository.UpdateStatsAsync(dnaAnalyzed);
         }
 
-        public Task saveDnaResultAsync(Func<string[]> dnaMutantMatrix, bool v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

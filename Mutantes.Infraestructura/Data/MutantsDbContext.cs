@@ -43,7 +43,7 @@ namespace Mutantes.Infraestructura.Data
             {
                 entity.ToTable("dna_analyzed");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.DateAnalyzed).HasColumnName("date_analyzed");
 

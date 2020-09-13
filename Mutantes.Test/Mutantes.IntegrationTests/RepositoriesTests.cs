@@ -7,6 +7,7 @@ using Mutantes.Infraestructura.Repositories;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,9 +23,10 @@ namespace Mutantes.IntegrationTest
         [SetUp]
         public void Setup()
         {
-            var dbContextOptions = new DbContextOptionsBuilder<MutantsDbContext>().UseInMemoryDatabase("Test");
+            var dbContextOptions = new DbContextOptionsBuilder<MutantsDbContext>().UseInMemoryDatabase("TestRepositories");
             _context = new MutantsDbContext(dbContextOptions.Options);
             _context.Database.EnsureCreated();
+            
 
             _statsRepository = new Infraestructura.Repositories.StatsRepository(_context);
             _dnaAnalyzed = new DnaAnalyzedRepository(_context);
@@ -40,8 +42,9 @@ namespace Mutantes.IntegrationTest
         [Test]
         public async Task Test001CalcularStatsSinRegistrosDevuelveTodosLosValoresCero()
         {
+            //_context.Database.EnsureDeleted();
 
-            var result =await  _statsRepository.GetStats();
+            var result = await  _statsRepository.GetStats();
             Assert.AreEqual(result.HumansFound, 0);
             Assert.AreEqual(result.MutantsFound, 0);
            
@@ -88,6 +91,23 @@ namespace Mutantes.IntegrationTest
             var resultAfterUpdate = await _statsRepository.GetStats();
             Assert.AreEqual(1, resultAfterUpdate.HumansFound);
 
+        }
+
+        [Test]
+
+        public async Task Test004SiCreoAsyncGuardaCorrectamente()
+        {
+            DnaAnalyzed dnaAnalyzed = new DnaAnalyzed
+            {
+                Dna = "DNA_TEST",
+                IsMutant = true,
+                DateAnalyzed = DateTime.Now
+            };
+            await _dnaAnalyzed.CreateAsync(dnaAnalyzed);
+
+            var dnaGuardado =  _context.DnaAnalyzed.Where(dna => dna.Dna.Equals(dnaAnalyzed.Dna)).Count();
+
+            Assert.AreEqual(1, dnaGuardado);
         }
 
 

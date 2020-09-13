@@ -32,7 +32,7 @@ namespace Mutantes.IntegrationTest
         [SetUp]
         public void Setup()
         {
-            var dbContextOptions = new DbContextOptionsBuilder<MutantsDbContext>().UseInMemoryDatabase("Test");
+            var dbContextOptions = new DbContextOptionsBuilder<MutantsDbContext>().UseInMemoryDatabase("TestStats");
             _context = new MutantsDbContext(dbContextOptions.Options);
             _context.Database.EnsureCreated();
 

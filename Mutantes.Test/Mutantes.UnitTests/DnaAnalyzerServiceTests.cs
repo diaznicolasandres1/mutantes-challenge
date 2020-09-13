@@ -4,6 +4,7 @@ using Mutantes.Core.Entities;
 using Mutantes.Core.Exceptions;
 using Mutantes.Core.Interfaces;
 using Mutantes.Core.Interfaces.Dna;
+using Mutantes.Core.Interfaces.Utilities;
 using Mutantes.Core.Services;
 using Mutantes.Core.Utilities;
 using Mutantes.Infraestructura.Data;
@@ -15,12 +16,14 @@ namespace Mutantes.UnitTests
     [TestClass]
     public class DnaAnalyzerServiceTest
     {
-        MatrixUtilities _matrixUtilities;
+        IMatrixUtilities _matrixUtilities;
+        IDnaAnalyzerAlgorithm _dnaAnalyzerAlgorithm;
         DnaAnalyzerService _dnaAnalizerService;
 
 
         Mock<ICacheService> cacheService = new Mock<ICacheService>();
         Mock<IDnaSaverService> dnaSaverService = new Mock<IDnaSaverService>();
+        
 
         DnaAnalyzed test = new DnaAnalyzed()
         {
@@ -35,7 +38,8 @@ namespace Mutantes.UnitTests
         {
             
             _matrixUtilities = new MatrixUtilities();
-           
+            _dnaAnalyzerAlgorithm = new DnaAnalyzerAlgorithm(_matrixUtilities);
+
             string[]  dna = DnaListGenerator.DnaHumanMatriz();
 
             dnaSaverService.Setup(x => x.saveDnaResultAsync(dna, false)).Returns(Task.CompletedTask);
@@ -43,7 +47,7 @@ namespace Mutantes.UnitTests
             cacheService.Setup(x => x.CacheResponseAsync("key", new Random().NextDouble().ToString())).Returns(Task.CompletedTask);
             cacheService.Setup(x => x.GetCachedResponseAsync("key")).Returns(Task.FromResult(default(string)));
 
-            _dnaAnalizerService = new DnaAnalyzerService(_matrixUtilities, dnaSaverService.Object, cacheService.Object);
+            _dnaAnalizerService = new DnaAnalyzerService(dnaSaverService.Object, cacheService.Object, _dnaAnalyzerAlgorithm);
 
        
 
