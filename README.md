@@ -112,7 +112,13 @@ La documentacion de los endpoits, request y response se encuentra en:
 [Mutants-API-Swagger](https://diaznicolasandres.com/swagger/index.html)
 
 
+```
+http://diaznicolasandres.com/api/mutant
 
+```
+```
+http://diaznicolasandres.com/api/stats
+```
 
 
 ## Instalacion
