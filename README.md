@@ -140,13 +140,17 @@ dotnet build
  dotnet run
 ```
 
-4. Si queremos ejecutar unit tests, volvemos a la carpeta anterior
+4. Abrir en un navegador
+```
+http://localhost:5001
+```
+5. Si queremos ejecutar unit tests, volvemos a la carpeta anterior
 ```sh
 cd ..
 cd Mutantes.Test\Mutantes.UnitTests
 dotnet test
 ```
-5. Ejecutar tests de integracion
+6. Ejecutar tests de integracion
 ```sh
 cd ..
 cd Mutantes.IntegrationTests
