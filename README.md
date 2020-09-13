@@ -105,7 +105,7 @@ Para tener una mejor performance usamos redis como base de datos cache, no tiene
 
 
  
-<img src="https://blog.ehcgroup.io/wp-content/uploads/2019/08/What-is-an-API.png" width="30%">
+<img src="https://github.com/diaznicolasandres1/mutantes-challenge/blob/master/Doc/Imagenes/Api.png?raw=true" width="40%">
 
 La documentacion de los endpoits, request, response se encuentra en:
 [Mutants-API-Swagger](https://diaznicolasandres.com/swagger/index.html)
