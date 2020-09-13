@@ -129,15 +129,20 @@ Es necesario tener instalado   [NET CORE 3.1 SDK](https://dotnet.microsoft.com/d
 git clone https://github.com/diaznicolasandres1/mutantes-challenge.git
 ```
 
-2. Pararse en el root donde se clono el repo
-
-3. Para ejecutar la API localmente 
+2. En la carpeta root buildear el proyecto
 ```sh
 dotnet build
-dotnet run
+
 ```
-4. Ejecutar unit testes
+3. Nos movemos a la carpeta Mutantes.API
 ```sh
+ cd Mutantes.API
+ dotnet run
+```
+
+4. Si queremos ejecutar unit tests, volvemos a la carpeta anterior
+```sh
+cd ..
 cd Mutantes.Test\Mutantes.UnitTests
 dotnet test
 ```
