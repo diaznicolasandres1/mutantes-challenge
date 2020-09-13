@@ -93,7 +93,7 @@ Ademas se desarrolla contra interfaces, el framework nos provee su propio contai
 ***Mutantes.Controller***: Aca se encuentran nuestros dos controladores Mutant y Stats, se encargan de expones nuestros metodos a travez del protocoloco HTTP. 
 Estos controladores utilizan los services expuestos por la capa CORE.
 
-Para tener una mejor performance usamos redis como base de datos cache, no tiene sentido volver a analizar el mismo adn una y otra vez si podemo almacenarlo en la cache y hacer que sea mas performante. Lo mismo ocurre cuando se quieren consultar los stats, si se analizo previamente un adn, se actualizo el valor y evitamos tener que hacer una consulta a la base de datos
+Para tener una mejor performance usamos redis como base de datos cache, no tiene sentido volver a analizar el mismo adn una y otra vez si podemos almacenarlo en la cache y hacer que sea mas performante. Lo mismo ocurre cuando se quieren consultar los stats, si se analizo previamente un adn, se actualizo el valor y evitamos tener que hacer una consulta a la base de datos
  
  
 <img src="https://github.com/diaznicolasandres1/mutantes-challenge/blob/master/Doc/Imagenes/cleanArchitecture.png?raw=true" width="40%">
