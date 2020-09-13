@@ -1,10 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Mutantes.Infraestructura.Data;
 using Mutantes.Infraestructura.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Mutantes.Infraestructura.Repositories
@@ -13,7 +9,7 @@ namespace Mutantes.Infraestructura.Repositories
     {
         readonly MutantsDbContext _context;
 
-        public StatsRepository(MutantsDbContext context)
+        public StatsRepository(MutantsDbContext context, ICacheRepository cacheServicee)
         {
             _context = context;
         }

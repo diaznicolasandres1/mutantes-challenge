@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
-
+using Moq;
 using Mutantes.Core.Services;
 using Mutantes.Infraestructura.Data;
+using Mutantes.Infraestructura.Interfaces;
 using Mutantes.Infraestructura.Repositories;
 using NUnit.Framework;
 using System;
@@ -19,6 +20,7 @@ namespace Mutantes.IntegrationTest
         private MutantsDbContext _context;
         private Infraestructura.Repositories.StatsRepository _statsRepository;
         private DnaAnalyzedRepository _dnaAnalyzed;
+        readonly Mock<ICacheRepository> cacheRepository = new Mock<ICacheRepository>();
 
         [SetUp]
         public void Setup()
@@ -26,9 +28,12 @@ namespace Mutantes.IntegrationTest
             var dbContextOptions = new DbContextOptionsBuilder<MutantsDbContext>().UseInMemoryDatabase("TestRepositories");
             _context = new MutantsDbContext(dbContextOptions.Options);
             _context.Database.EnsureCreated();
-            
 
-            _statsRepository = new Infraestructura.Repositories.StatsRepository(_context);
+            cacheRepository.Setup(x => x.CacheResponseAsync("key", new Random().NextDouble().ToString())).Returns(Task.CompletedTask);
+            cacheRepository.Setup(x => x.GetCachedResponseAsync("key")).Returns(Task.FromResult(default(string)));
+    
+
+            _statsRepository = new Infraestructura.Repositories.StatsRepository(_context, cacheRepository.Object);
             _dnaAnalyzed = new DnaAnalyzedRepository(_context);
         }
 

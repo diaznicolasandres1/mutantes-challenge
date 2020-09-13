@@ -1,19 +1,14 @@
-﻿
-using Microsoft.Extensions.Caching.Distributed;
-using Mutantes.Core.Interfaces;
+﻿using Mutantes.Infraestructura.Interfaces;
 using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Mutantes.Core.Services
+namespace Mutantes.Infraestructura.Repositories
 {
-    public class RedisCacheService : ICacheService
+    public class RedisCacheRepository : ICacheRepository
     {
         private readonly IConnectionMultiplexer _connectionMultiplexer;
 
-        public RedisCacheService(IConnectionMultiplexer connectionMultiplexer)
+        public RedisCacheRepository(IConnectionMultiplexer connectionMultiplexer)
         {
             _connectionMultiplexer = connectionMultiplexer;
         }

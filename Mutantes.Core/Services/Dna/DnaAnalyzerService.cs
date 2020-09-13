@@ -25,10 +25,10 @@ namespace Mutantes.Core.Services
 
         readonly IDnaAnalyzerAlgorithm _analyzerAlgorithm;
         readonly IDnaSaverService _dnaSaverService;
-        readonly ICacheService _cacheService;
+        readonly ICacheRepository _cacheService;
 
 
-        public DnaAnalyzerService( IDnaSaverService dnaSaverService, ICacheService cacheService, IDnaAnalyzerAlgorithm analyzerAlgorithm)
+        public DnaAnalyzerService( IDnaSaverService dnaSaverService, ICacheRepository cacheService, IDnaAnalyzerAlgorithm analyzerAlgorithm)
         {           
             _dnaSaverService = dnaSaverService;
             _cacheService = cacheService;

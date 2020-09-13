@@ -26,13 +26,13 @@ namespace Mutantes.IntegrationTest
         private IStatsService _statsService;       
         private IDnaSaverService _dnaSaverService;
         private IDnaAnalyzedRepository _dnaAnalyzedRepository;
-        readonly private Mock<ICacheService> _cacheService;
+        readonly private Mock<ICacheRepository> _cacheRepository;
 
         public StatsControllerTests()
         {
-            _cacheService = new Mock<ICacheService>();
-            _cacheService.Setup(x => x.CacheResponseAsync("key", "value")).Returns(Task.FromResult(default(string)));
-            _cacheService.Setup(x => x.GetCachedResponseAsync("key")).Returns(Task.FromResult(default(string)));
+            _cacheRepository = new Mock<ICacheRepository>();
+            _cacheRepository.Setup(x => x.CacheResponseAsync("key", "value")).Returns(Task.FromResult(default(string)));
+            _cacheRepository.Setup(x => x.GetCachedResponseAsync("key")).Returns(Task.FromResult(default(string)));
         }
       
         [SetUp]
@@ -43,10 +43,10 @@ namespace Mutantes.IntegrationTest
             _context.Database.EnsureCreated();
 
             _dnaAnalyzedRepository = new DnaAnalyzedRepository(_context);
-            _statsRepository = new StatsRepository(_context);
+            _statsRepository = new StatsRepository(_context, _cacheRepository.Object);
             _statsService = new StatsService(_statsRepository);
             _statsController = new StatsController(_statsService);
-            _dnaSaverService = new DnaSaverService(_dnaAnalyzedRepository, _cacheService.Object, _statsRepository);
+            _dnaSaverService = new DnaSaverService(_dnaAnalyzedRepository, _cacheRepository.Object, _statsRepository);
 
 
         }

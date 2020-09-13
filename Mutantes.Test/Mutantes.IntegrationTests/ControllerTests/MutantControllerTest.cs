@@ -2,11 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using Mutantes.API;
 using Mutantes.API.Controllers;
 using Mutantes.API.Utilities;
 using Mutantes.Core.DTOs;
-using Mutantes.Core.Entities;
 using Mutantes.Core.Interfaces;
 using Mutantes.Core.Interfaces.Dna;
 using Mutantes.Core.Interfaces.Utilities;
@@ -17,10 +15,6 @@ using Mutantes.Infraestructura.Data;
 using Mutantes.Infraestructura.Interfaces;
 using Mutantes.Infraestructura.Repositories;
 using NUnit.Framework;
-using System;
-using System.Net.Http;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Mutantes.IntegrationTest
@@ -39,14 +33,14 @@ namespace Mutantes.IntegrationTest
         private MutantController _mutantController;
         private IDnaAnalyzerService _dnaAnalyzerService;
         private MatrixUtilities _matrixUtitilities;
-        readonly  private Mock<ICacheService> _cacheService;
+        readonly  private Mock<ICacheRepository> _cacheRepository;
         private IDnaAnalyzerAlgorithm _dnaAnalyzerAlgorithm;
         
         public MutantControllerTest()
         {
-            _cacheService = new Mock<ICacheService>();
-            _cacheService.Setup(x => x.CacheResponseAsync("key", "value")).Returns(Task.FromResult(default(string)));
-            _cacheService.Setup(x => x.GetCachedResponseAsync("key")).Returns(Task.FromResult(default(string)));
+            _cacheRepository = new Mock<ICacheRepository>();
+            _cacheRepository.Setup(x => x.CacheResponseAsync("key", "value")).Returns(Task.FromResult(default(string)));
+            _cacheRepository.Setup(x => x.GetCachedResponseAsync("key")).Returns(Task.FromResult(default(string)));
 
         }
 
@@ -60,10 +54,10 @@ namespace Mutantes.IntegrationTest
             _dnaAnalyzerAlgorithm = new DnaAnalyzerAlgorithm(_matrixUtitilities);
             
             _dnaAnalyzedRepository = new DnaAnalyzedRepository(_context);
-            _statsRepository = new StatsRepository(_context);
+            _statsRepository = new StatsRepository(_context,_cacheRepository.Object);
             
-            _dnaSaverService = new DnaSaverService(_dnaAnalyzedRepository, _cacheService.Object,_statsRepository);
-            _dnaAnalyzerService = new DnaAnalyzerService(_dnaSaverService, _cacheService.Object, _dnaAnalyzerAlgorithm);
+            _dnaSaverService = new DnaSaverService(_dnaAnalyzedRepository, _cacheRepository.Object,_statsRepository);
+            _dnaAnalyzerService = new DnaAnalyzerService(_dnaSaverService, _cacheRepository.Object, _dnaAnalyzerAlgorithm);
 
 
             _mutantController = new MutantController(_dnaAnalyzerService);

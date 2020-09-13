@@ -8,6 +8,7 @@ using Mutantes.Core.Interfaces.Utilities;
 using Mutantes.Core.Services;
 using Mutantes.Core.Utilities;
 using Mutantes.Infraestructura.Data;
+using Mutantes.Infraestructura.Interfaces;
 using System;
 using System.Threading.Tasks;
 
@@ -21,7 +22,7 @@ namespace Mutantes.UnitTests
         readonly  DnaAnalyzerService _dnaAnalizerService;
 
 
-        readonly  Mock<ICacheService> cacheService = new Mock<ICacheService>();
+        readonly  Mock<ICacheRepository> cacheRepository = new Mock<ICacheRepository>();
         readonly  Mock<IDnaSaverService> dnaSaverService = new Mock<IDnaSaverService>();
         
 
@@ -44,10 +45,10 @@ namespace Mutantes.UnitTests
 
             dnaSaverService.Setup(x => x.saveDnaResultAsync(dna, false)).Returns(Task.CompletedTask);
 
-            cacheService.Setup(x => x.CacheResponseAsync("key", new Random().NextDouble().ToString())).Returns(Task.CompletedTask);
-            cacheService.Setup(x => x.GetCachedResponseAsync("key")).Returns(Task.FromResult(default(string)));
+            cacheRepository.Setup(x => x.CacheResponseAsync("key", new Random().NextDouble().ToString())).Returns(Task.CompletedTask);
+            cacheRepository.Setup(x => x.GetCachedResponseAsync("key")).Returns(Task.FromResult(default(string)));
 
-            _dnaAnalizerService = new DnaAnalyzerService(dnaSaverService.Object, cacheService.Object, _dnaAnalyzerAlgorithm);
+            _dnaAnalizerService = new DnaAnalyzerService(dnaSaverService.Object, cacheRepository.Object, _dnaAnalyzerAlgorithm);
 
        
 

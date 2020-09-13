@@ -14,9 +14,9 @@ namespace Mutantes.Core.Services.Dna
     {
         readonly IDnaAnalyzedRepository _dnaAnalyzedRepository;
         readonly IStatsRepository _statsRepository;
-        readonly ICacheService _cacheService;
+        readonly ICacheRepository _cacheService;
 
-        public DnaSaverService(IDnaAnalyzedRepository dnaAnalyzedRepository, ICacheService cacheService, IStatsRepository statsRepository)
+        public DnaSaverService(IDnaAnalyzedRepository dnaAnalyzedRepository, ICacheRepository cacheService, IStatsRepository statsRepository)
         {
             _dnaAnalyzedRepository = dnaAnalyzedRepository;
             _statsRepository = statsRepository;

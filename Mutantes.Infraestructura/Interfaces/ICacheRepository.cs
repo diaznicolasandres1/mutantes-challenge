@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mutantes.Core.Interfaces
+namespace Mutantes.Infraestructura.Interfaces
 {
-   public  interface ICacheService
+   public  interface ICacheRepository
     {
 
         public  Task CacheResponseAsync(string cacheKey, string value);
