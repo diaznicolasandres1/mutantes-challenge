@@ -48,7 +48,7 @@ namespace Mutantes.IntegrationTest
         }
 
         [Test]
-         
+               
         public async Task Test002UpdateoLaCantidadDeMutanteEncontradosYLosStantsDevuelvenCantMutantes1()
         {
             var result = await _statsRepository.GetStats();        

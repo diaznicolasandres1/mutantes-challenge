@@ -19,9 +19,6 @@ namespace Mutantes.UnitTests
         DnaAnalyzerService _dnaAnalizerService;
 
 
-        //Mock<IDnaAnalyzedRepository> dnaAnalyzedRepository = new Mock<IDnaAnalyzedRepository>();
-        //Mock<IStatsRepository> statsRepository = new Mock<IStatsRepository>();
-
         Mock<ICacheService> cacheService = new Mock<ICacheService>();
         Mock<IDnaSaverService> dnaSaverService = new Mock<IDnaSaverService>();
 
@@ -71,7 +68,7 @@ namespace Mutantes.UnitTests
 
         [TestMethod]
         [ExpectedException(typeof(NullDnaParameterException))]
-        public async System.Threading.Tasks.Task Test002TratarDeAnalizarUnaMatrizNulaLanzaNullDnaParameterExceptionExcepcionAsync()
+        public async Task Test002TratarDeAnalizarUnaMatrizNulaLanzaNullDnaParameterExceptionExcepcionAsync()
         {
             string[] dnaList = null;
             DnaEntitie dnaEntitie = new DnaEntitie
@@ -107,7 +104,7 @@ namespace Mutantes.UnitTests
 
 
         [TestMethod]
-        public async Task Test005AnalizarUnaMatrizConDatosMutanteDevuelveTrueAsync()
+        public async Task Test005AnalizarUnaMatrizConDatosMutanteDevuelveTrue()
         {
 
             DnaEntitie dnaEntitie = new DnaEntitie
@@ -130,7 +127,7 @@ namespace Mutantes.UnitTests
 
          */
         [TestMethod]
-        public async Task Test006AnalizarUnaMatrizConDatosHumanosDevuelveFalseAsync()
+        public async Task Test006AnalizarUnaMatrizConDatosHumanosDevuelveFals()
         {
 
             DnaEntitie dnaEntitie = new DnaEntitie

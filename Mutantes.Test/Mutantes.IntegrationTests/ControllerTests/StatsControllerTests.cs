@@ -1,53 +1,142 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using Mutantes.API.Controllers;
 using Mutantes.Core.Entities;
 using Mutantes.Core.Interfaces;
+using Mutantes.Core.Interfaces.Dna;
+using Mutantes.Core.Services;
+using Mutantes.Core.Services.Dna;
+using Mutantes.Core.Utilities;
+using Mutantes.Infraestructura.Data;
+using Mutantes.Infraestructura.Interfaces;
+using Mutantes.Infraestructura.Repositories;
+using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
 
-namespace UnitTestProject1
+namespace Mutantes.IntegrationTest
 {
-    [TestClass]
+  
     public class StatsControllerTests
     {
-        Mock<IStatsService> _statsService = new Mock<IStatsService>();
+        private MutantsDbContext _context;
+        private StatsController _statsController;
+        private IStatsRepository _statsRepository;
+        private IStatsService _statsService;       
+        private IDnaSaverService _dnaSaverService;
+        private IDnaAnalyzedRepository _dnaAnalyzedRepository;
        
 
-
-
-        [TestMethod]
-        public async Task Test001StatsVacioDevuelveTodo0Async()
+      
+        [SetUp]
+        public void Setup()
         {
+            var dbContextOptions = new DbContextOptionsBuilder<MutantsDbContext>().UseInMemoryDatabase("Test");
+            _context = new MutantsDbContext(dbContextOptions.Options);
+            _context.Database.EnsureCreated();
 
-            StatsEntitie entitieTest01 = new StatsEntitie
-            {
-                count_human_dna = 0,
-                count_mutant_dna = 0,
-                ratio = 0,
-            };
+            _dnaAnalyzedRepository = new DnaAnalyzedRepository(_context);
+            _statsRepository = new StatsRepository(_context);
+            _statsService = new StatsService(_statsRepository);
+            _statsController = new StatsController(_statsService);
+            _dnaSaverService = new DnaSaverService(_dnaAnalyzedRepository,_statsRepository);
 
-
-            _statsService.Setup(x => x.GetStats()).Returns(Task.FromResult(entitieTest01));
-
-            StatsController controller = new StatsController(_statsService.Object);
-
-            OkObjectResult response = (OkObjectResult)await controller.GetStats();
-
-            var result = response.Value;
-
-            Assert.AreSame(result, entitieTest01);
 
         }
 
 
-        [TestMethod]
-        public async Task Test002Inserto2MutantesYDosHumanosElControladorDevuelveCorrectamenteLosResultados()
+        [TearDown]
+        public void TearDown()
         {
+            _context.Database.EnsureDeleted();
+        }
 
+        [Test]
+        public async Task Test001SiNoHayNingunStatsPrevioDevuelveTodo0Async()
+        {
+            OkObjectResult actionResult = (OkObjectResult )await  _statsController.GetStats();
+            var value = (StatsEntitie)actionResult.Value;
+
+            Assert.AreEqual(0, value.count_human_dna);
+            Assert.AreEqual(0, value.count_mutant_dna);
+            Assert.AreEqual(0.00, value.ratio);
 
         }
+
+
+        [Test]
+        public async Task Test002SiAgrego1MutanteLosStatsSonCorectosYRatio0()
+        {
+             
+             await _dnaSaverService.saveDnaResultAsync(DnaListGenerator.DnaMutantMatrix(), true);
+
+
+            OkObjectResult actionResult = (OkObjectResult)await _statsController.GetStats();
+            var value = (StatsEntitie)actionResult.Value;
+
+            Assert.AreEqual(0, value.count_human_dna);
+            Assert.AreEqual(1, value.count_mutant_dna);
+            Assert.AreEqual(0.00, value.ratio);
+
+        }
+
+        [Test]
+        public async Task Test003SiAgrego1HumanoLosStatsSonCorectosYRatio1()
+        {
+
+            await _dnaSaverService.saveDnaResultAsync(DnaListGenerator.DnaHumanMatriz(), false);
+
+
+            OkObjectResult actionResult = (OkObjectResult)await _statsController.GetStats();
+            var value = (StatsEntitie)actionResult.Value;
+
+            Assert.AreEqual(1, value.count_human_dna);
+            Assert.AreEqual(0, value.count_mutant_dna);
+            Assert.AreEqual(1.00, value.ratio);
+
+        }
+
+        [Test]
+        public async Task Test004SiAgrego2HumanosYUnMutanteLosStatsSonCorrectosrectosYRatio2()
+        {
+
+            await _dnaSaverService.saveDnaResultAsync(DnaListGenerator.DnaHumanMatriz(), false);
+            await _dnaSaverService.saveDnaResultAsync(DnaListGenerator.DnaHumanMatriz(), false);
+            await _dnaSaverService.saveDnaResultAsync(DnaListGenerator.DnaMutantMatrix(), true);
+
+            OkObjectResult actionResult = (OkObjectResult)await _statsController.GetStats();
+            var value = (StatsEntitie)actionResult.Value;
+
+            Assert.AreEqual(2, value.count_human_dna);
+            Assert.AreEqual(1, value.count_mutant_dna);
+            Assert.AreEqual(2.00, value.ratio);
+
+        }
+
+        [Test]
+        public async Task Test004SiAgrego2MutantesYUnHumanoLosStatsSonCorrectosrectosYRatio0_5()
+        {
+
+            await _dnaSaverService.saveDnaResultAsync(DnaListGenerator.DnaHumanMatriz(), false);
+            await _dnaSaverService.saveDnaResultAsync(DnaListGenerator.DnaMutantMatrix(), true);
+            await _dnaSaverService.saveDnaResultAsync(DnaListGenerator.DnaMutantMatrix(), true);
+
+            OkObjectResult actionResult = (OkObjectResult)await _statsController.GetStats();
+            var value = (StatsEntitie)actionResult.Value;
+
+            Assert.AreEqual(1, value.count_human_dna);
+            Assert.AreEqual(2, value.count_mutant_dna);
+            Assert.AreEqual(0.5, value.ratio);
+
+        }
+
+
+
+
+
+
+
 
 
     }

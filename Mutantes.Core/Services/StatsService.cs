@@ -24,7 +24,7 @@ namespace Mutantes.Core.Services
             {
                 count_human_dna = stats.HumansFound,
                 count_mutant_dna = stats.MutantsFound,
-                ratio = stats.HumansFound != 0 ? (double)decimal.Divide(stats.MutantsFound, stats.HumansFound) : 0.0
+                ratio = stats.MutantsFound != 0 ? (double)decimal.Divide(stats.HumansFound, stats.MutantsFound) : stats.HumansFound
                 
             };
 

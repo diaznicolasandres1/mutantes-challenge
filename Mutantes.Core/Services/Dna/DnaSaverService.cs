@@ -34,6 +34,9 @@ namespace Mutantes.Core.Services.Dna
             await _statsRepository.UpdateStatsAsync(dnaAnalyzed);
         }
 
-    
+        public Task saveDnaResultAsync(Func<string[]> dnaMutantMatrix, bool v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

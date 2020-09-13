@@ -13,6 +13,16 @@ namespace Mutantes.IntegrationTest
     [TestClass]
     public class MutantControllerTest
     {
+
+
+
+
+
+        /*  -----Si se desea correr estos test apuntar la solucion a una base de pruebas,
+         *  ya que son recuestas a la api y modifican la db.
+         * 
+         * 
+         * 
         private readonly HttpClient _client;
         public MutantControllerTest()
         {
@@ -67,13 +77,6 @@ namespace Mutantes.IntegrationTest
             Assert.AreEqual(apiResponse.StatusCode, System.Net.HttpStatusCode.BadRequest);
         }
 
-
-
-
-
-
-
-
         private async Task<HttpResponseMessage> makeRequest(string[] dnaList)
         {
             var dnaEntitie= new DnaEntitie()
@@ -87,6 +90,8 @@ namespace Mutantes.IntegrationTest
 
             return response;
         }
+
+        */
 
 
 
