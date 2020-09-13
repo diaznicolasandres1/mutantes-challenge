@@ -122,7 +122,7 @@ http://diaznicolasandres.com/api/stats
 
 
 ## Instalacion
-Es necesario tener instalado   [NET CORE 3.1 RUNTIME](https://dotnet.microsoft.com/download/dotnet-core/current/runtime)
+Es necesario tener instalado   [NET CORE 3.1 SDK](https://dotnet.microsoft.com/download/dotnet-core/thank-you/sdk-3.1.402-windows-x64-installer)
 
 1. Clonar el repo.
 ```sh
