@@ -30,7 +30,7 @@ namespace Mutantes.API.Controllers
         {
             if (dnaRequest.dna == null) return  UnsupportedMediaType("Null DNA");
             
-           if (!ModelState.IsValid || dnaRequest.dna == null || dnaRequest.dna.Length < 4)
+           if (!ModelState.IsValid || dnaRequest.dna.Length < 4)
                 return CustomBadRequest("Invalid DNA: Empty or invalid length, minimun matrix size is 4x4");
 
             try
