@@ -1,8 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Moq;
 using Mutantes.API;
+using Mutantes.API.Controllers;
+using Mutantes.API.Utilities;
+using Mutantes.Core.DTOs;
 using Mutantes.Core.Entities;
+using Mutantes.Core.Interfaces;
+using Mutantes.Core.Interfaces.Dna;
+using Mutantes.Core.Services;
+using Mutantes.Core.Services.Dna;
 using Mutantes.Core.Utilities;
+using Mutantes.Infraestructura.Data;
+using Mutantes.Infraestructura.Interfaces;
+using Mutantes.Infraestructura.Repositories;
+using NUnit.Framework;
+using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -10,88 +24,143 @@ using System.Threading.Tasks;
 
 namespace Mutantes.IntegrationTest
 {
-    [TestClass]
+    // [TestClass]
     public class MutantControllerTest
     {
 
 
 
-
-
-        /*  -----Si se desea correr estos test apuntar la solucion a una base de pruebas,
-         *  ya que son recuestas a la api y modifican la db.
-         * 
-         * 
-         * 
-        private readonly HttpClient _client;
+        private MutantsDbContext _context;
+    
+        private IStatsRepository _statsRepository;
+        private IStatsService _statsService;
+        private IDnaSaverService _dnaSaverService;
+        private IDnaAnalyzedRepository _dnaAnalyzedRepository;
+        private MutantController _mutantController;
+        private IDnaAnalyzerService _dnaAnalyzerService;
+        private MatrixUtilities _matrixUtitilities;
+        private Mock<ICacheService> _cacheService;
         public MutantControllerTest()
         {
-            var appFactory = new WebApplicationFactory<Startup>();
-            _client = appFactory.CreateClient();
+            _cacheService = new Mock<ICacheService>();
+            _cacheService.Setup(x => x.CacheResponseAsync("key", "value")).Returns(Task.FromResult(default(string)));
+            _cacheService.Setup(x => x.GetCachedResponseAsync("key")).Returns(Task.FromResult(default(string)));
+
         }
 
-        [TestMethod]
-        public async Task Test001AnalizarUnAdnMutanteRetornaHttpStatus200Async()
+        [SetUp]
+        public void Setup()
         {
-           var apiResponse = await makeRequest(DnaListGenerator.DnaMutantMatrix());
+            var dbContextOptions = new DbContextOptionsBuilder<MutantsDbContext>().UseInMemoryDatabase("Test");
+            _context = new MutantsDbContext(dbContextOptions.Options);
+            _context.Database.EnsureCreated();
 
-         Assert.AreEqual(apiResponse.StatusCode, System.Net.HttpStatusCode.OK);
+            _matrixUtitilities = new MatrixUtilities();
+            _dnaAnalyzedRepository = new DnaAnalyzedRepository(_context);
+            _statsRepository = new StatsRepository(_context);
+            _statsService = new StatsService(_statsRepository);
+            _dnaSaverService = new DnaSaverService(_dnaAnalyzedRepository, _statsRepository);
+            _dnaAnalyzerService = new DnaAnalyzerService(_matrixUtitilities, _dnaSaverService, _cacheService.Object);
+
+
+            _mutantController = new MutantController(_dnaAnalyzerService);
+
+
+
         }
 
 
-        [TestMethod]
+        [Test]
+        public async Task Test001AnalizarUnAdnMutanteRetornaHttpStatus200()
+        {
+
+            ObjectResult objectResult = await makePostRequest(DnaListGenerator.DnaMutantMatrix());
+
+            Assert.AreEqual(objectResult.StatusCode, StatusCodes.Status200OK);
+            
+            var resultObj =  (MessageReponse)objectResult.Value;
+
+            Assert.AreEqual(StatusCodes.Status200OK, resultObj.status);
+          
+
+        }
+        [Test]
         public async Task Test002AnalizarUnAdnHumanoRetornaHttpStatus403()
         {
 
-            var apiResponse = await makeRequest(DnaListGenerator.DnaHumanMatriz());
+            ObjectResult objectResult = await makePostRequest(DnaListGenerator.DnaHumanMatriz());
 
-            Assert.AreEqual(apiResponse.StatusCode, System.Net.HttpStatusCode.Forbidden);
+
+            Assert.AreEqual(objectResult.StatusCode, StatusCodes.Status403Forbidden);
+
+            var resultObj = (MessageReponse)objectResult.Value;
+
+            Assert.AreEqual(StatusCodes.Status403Forbidden, resultObj.status);
+
+
+
         }
 
-        [TestMethod]
-
+        [Test]
         public async Task Test003AnalizarMatrizConCharInvalidoRetornaHttpStatus400()
         {
+            ObjectResult objectResult = await makePostRequest(DnaListGenerator.InvalidCharMatrix());
 
-            var apiResponse = await makeRequest(DnaListGenerator.InvalidCharMatrix());         
 
-           
-            Assert.AreEqual(apiResponse.StatusCode, System.Net.HttpStatusCode.BadRequest);
+            Assert.AreEqual(objectResult.StatusCode, StatusCodes.Status400BadRequest);
+
+            var resultObj = (MessageReponse)objectResult.Value;
+
+            Assert.AreEqual(StatusCodes.Status400BadRequest, resultObj.status);
+
         }
 
-
-        [TestMethod]
+        [Test]
         public async Task Test004RecibirUnParametroNuloRetornaUnsupportedMediaType()
         {
-            var apiResponse =  await _client.PostAsync("api/mutant", null);
-            Assert.AreEqual(apiResponse.StatusCode, System.Net.HttpStatusCode.UnsupportedMediaType);
+            ObjectResult objectResult = await makePostRequest(null);
 
+
+            Assert.AreEqual(objectResult.StatusCode, StatusCodes.Status415UnsupportedMediaType);
+
+            var resultObj = (MessageReponse)objectResult.Value;
+
+            Assert.AreEqual(StatusCodes.Status415UnsupportedMediaType, resultObj.status);
         }
 
-        [TestMethod]
+        [Test]
         public async Task Test005RecibirMatrixVaciaRetornaBadRequest()
         {
-            
-            var apiResponse = await makeRequest(DnaListGenerator.EmptyMatrix());
+            ObjectResult objectResult = await makePostRequest(DnaListGenerator.EmptyMatrix());
 
-            Assert.AreEqual(apiResponse.StatusCode, System.Net.HttpStatusCode.BadRequest);
+
+            Assert.AreEqual(objectResult.StatusCode, StatusCodes.Status400BadRequest);
+
+            var resultObj = (MessageReponse)objectResult.Value;
+
+            Assert.AreEqual(StatusCodes.Status400BadRequest, resultObj.status);
+
         }
 
-        private async Task<HttpResponseMessage> makeRequest(string[] dnaList)
+
+
+
+
+        private async Task<ObjectResult> makePostRequest(string[] dna)
         {
-            var dnaEntitie= new DnaEntitie()
+            DnaDto dnaDto = new DnaDto
             {
-                Dna = dnaList
+                dna = dna,
             };
-            var serializedObject = Newtonsoft.Json.JsonConvert.SerializeObject(dnaEntitie);
-            var requestString = new StringContent(serializedObject, Encoding.UTF8, "application/json");
 
-            var response = await _client.PostAsync("api/mutant", requestString);
-
-            return response;
+            ObjectResult objectResult = (ObjectResult)await _mutantController.Post(dnaDto);
+            return objectResult;
         }
 
-        */
+
+
+
+
 
 
 
