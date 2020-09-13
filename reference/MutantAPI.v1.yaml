@@ -1,0 +1,15 @@
+openapi: 3.0.0
+info:
+  title: MutantAPI
+  version: '1.0'
+  description: MutanAPI
+  contact:
+    name: Nicolas Diaz
+    email: diaz.nicolasandres@gmail.com
+servers:
+  - url: 'https://muntantes-diaznicolas.azurewebsites.net/api'
+    description: Nicolas Andres Diaz
+paths: {}
+components:
+  schemas: {}
+  securitySchemes: {}
