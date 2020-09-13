@@ -51,7 +51,7 @@ namespace Mutantes.Infraestructura.Repositories
             if(stats == null)
             {
                 stats = await GetStats().ConfigureAwait(false);
-            }        
+            }       
 
             
 
@@ -65,9 +65,10 @@ namespace Mutantes.Infraestructura.Repositories
             }
 
             var statsSerialized = JsonSerializer.Serialize(stats);
+
             await _cacheService.CacheResponseAsync("stats", statsSerialized);
 
-             _context.Update(stats);
+            _context.Update(stats);
 
             await _context.SaveChangesAsync();
         }

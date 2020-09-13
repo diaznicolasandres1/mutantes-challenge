@@ -14,6 +14,9 @@ using Mutantes.Infraestructura.Data;
 using Mutantes.Infraestructura.Interfaces;
 using Mutantes.Infraestructura.Repositories;
 using StackExchange.Redis;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace Mutantes.API
 {
@@ -42,6 +45,21 @@ namespace Mutantes.API
             services.AddSingleton<IConnectionMultiplexer>(x => ConnectionMultiplexer.Connect("muntantes-diaznicolas.redis.cache.windows.net:6380,password=HeXWGH4sSqpK08XT9N3RpTfB9aVz3SqjHt7oX3OM8Xk=,ssl=True,abortConnect=False"));
             services.AddTransient<ICacheRepository, RedisCacheRepository>();
             services.AddTransient<IDnaAnalyzerAlgorithm, DnaAnalyzerAlgorithm>();
+            services.AddSwaggerGen(x =>
+            {
+                x.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Title = "Mutants API",
+                    Version = "v1",
+                });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPAth = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                x.IncludeXmlComments(xmlPAth);
+            });
+        }
+            
+            
+           
 
            
 
