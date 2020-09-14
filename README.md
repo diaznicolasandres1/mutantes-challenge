@@ -93,7 +93,7 @@ Ademas se desarrolla contra interfaces, el framework nos provee su propio contai
 ***Mutantes.Controller***: Aca se encuentran nuestros dos controladores Mutant y Stats, se encargan de expones nuestros metodos a travez del protocoloco HTTP. 
 Estos controladores utilizan los services expuestos por la capa CORE.
 
-Para tener una mejor performance usamos redis como base de datos cache, no tiene sentido volver a analizar el mismo adn una y otra vez si podemo almacenarlo en la cache y hacer que sea mas performante. Lo mismo ocurre cuando se quieren consultar los stats, si se analizo previamente un adn, se actualizo el valor y evitamos tener que hacer una consulta a la base de datos
+Para tener una mejor performance usamos redis como base de datos cache, no tiene sentido volver a analizar el mismo adn una y otra vez si podemos almacenarlo en la cache y hacer que sea mas performante. Lo mismo ocurre cuando se quieren consultar los stats, si se analizo previamente un adn, se actualizo el valor y evitamos tener que hacer una consulta a la base de datos
  
  
 <img src="https://github.com/diaznicolasandres1/mutantes-challenge/blob/master/Doc/Imagenes/cleanArchitecture.png?raw=true" width="40%">
@@ -129,19 +129,28 @@ Es necesario tener instalado   [NET CORE 3.1 SDK](https://dotnet.microsoft.com/d
 git clone https://github.com/diaznicolasandres1/mutantes-challenge.git
 ```
 
-2. Pararse en el root donde se clono el repo
-
-3. Para ejecutar la API localmente 
+2. En la carpeta root buildear el proyecto
 ```sh
 dotnet build
-dotnet run
+
 ```
-4. Ejecutar unit testes
+3. Nos movemos a la carpeta Mutantes.API
 ```sh
+ cd Mutantes.API
+ dotnet run
+```
+
+4. Abrir en un navegador
+```
+http://localhost:5001
+```
+5. Si queremos ejecutar unit tests, volvemos a la carpeta anterior
+```sh
+cd ..
 cd Mutantes.Test\Mutantes.UnitTests
 dotnet test
 ```
-5. Ejecutar tests de integracion
+6. Ejecutar tests de integracion
 ```sh
 cd ..
 cd Mutantes.IntegrationTests
