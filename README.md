@@ -115,7 +115,7 @@ Para tener una mejor performance usamos redis como base de datos cache, no tiene
 <img src="https://github.com/diaznicolasandres1/mutantes-challenge/blob/master/Doc/Imagenes/Api.png?raw=true" width="40%">
 
 La documentacion de los endpoits, request y response se encuentra en:
-[Mutants-API-Swagger](https://api.diaznicolasandres.com/melichallenge/swagger)
+[Mutants-API-Swagger](https://api.diaznicolasandres.com/melichallenge/api)
 
 
 ```
