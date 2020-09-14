@@ -43,7 +43,7 @@ namespace Mutantes.API
             services.AddTransient<IStatsService, StatsService>();
             services.AddTransient<IDnaSaverService, DnaSaverService>();
             services.AddTransient<IDnaAnalyzerAlgorithm, DnaAnalyzerAlgorithm>();
-            services.AddSingleton<IConnectionMultiplexer>(x => ConnectionMultiplexer.Connect("muntantes-diaznicolas.redis.cache.windows.net:6380,password=HeXWGH4sSqpK08XT9N3RpTfB9aVz3SqjHt7oX3OM8Xk=,ssl=True,abortConnect=False"));
+            services.AddSingleton<IConnectionMultiplexer>(x => ConnectionMultiplexer.Connect(_configuration.GetConnectionString("RedisConnectionString")));
             services.AddTransient<ICacheRepository, RedisCacheRepository>();
             services.AddTransient<IDnaAnalyzerAlgorithm, DnaAnalyzerAlgorithm>();
             services.AddSwaggerGen(x =>
