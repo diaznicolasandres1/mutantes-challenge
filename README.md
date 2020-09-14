@@ -131,6 +131,7 @@ http://api.diaznicolasandres.com/melichallenge/api/stats
 Es necesario tener instalado   [NET CORE 3.1 SDK](https://dotnet.microsoft.com/download/dotnet-core/thank-you/sdk-3.1.402-windows-x64-installer)
 
 1. Clonar el repo.
+
 ```sh
 git clone https://github.com/diaznicolasandres1/mutantes-challenge.git
 ```
@@ -141,22 +142,27 @@ dotnet build
 
 ```
 3. Nos movemos a la carpeta Mutantes.API
+
 ```sh
  cd Mutantes.API
  dotnet run
 ```
 
 4. Abrir en un navegador
+
 ```
 http://localhost:5001
 ```
 5. Si queremos ejecutar unit tests, volvemos a la carpeta anterior
+
 ```sh
 cd ..
 cd Mutantes.Test\Mutantes.UnitTests
 dotnet test
 ```
+
 6. Ejecutar tests de integracion
+
 ```sh
 cd ..
 cd Mutantes.IntegrationTests
