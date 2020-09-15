@@ -74,9 +74,9 @@ millón de peticiones por segundo).
 El algoritmo se abordo de la siguiente manera:
 
  Recorrer la matriz de manera iterativa, al pararnos en cada coordenada analizamos su al rededor con un metodo recurisivo.
- Se lo resolvio de esta manera ya que nos permite dividir el problema en sub problemas mas sencillos, en este caso basto que cuando se realiza el primer apilamiento en el stack, hacer un chequeo de sus al rededores(diagonal superior, lado derecho, diagonal inferior, por debajo), y a partir del segundo apilamiento calcula desde que direccion fue llamado y recursivamente chequea sus al rededores en esa direccion.
+ Se lo resolvio de esta manera ya que nos permite dividir el problema en sub problemas mas sencillos. En este caso basto que cuando se realiza el primer apilamiento en el stack, hacer un chequeo de sus al rededores(diagonal superior, lado derecho, diagonal inferior, por debajo). A a partir del segundo apilamiento calcula desde que direccion fue llamado y recursivamente chequea sus al rededores en esa direccion.
  
- Se lo considera eficiente ya que en el peor de los casos la cantidad de llamadas por coordenada son pocas:  4 posibles direcciones, x 4 repeticiones de palabra. Es un numero infimo para la capacidad de ejecucion de nuestro problema.
+ Se lo considera eficiente ya que en el peor de los casos la cantidad de llamadas por coordenada son pocas:  4 posibles direcciones, x 4 repeticiones de palabra. Es un numero infimo para la capacidad de ejecucion de nuestro probgrama
  En el proyecto este algoritmo esta resuelto en: Mutantes.Core/Utilities/DnaAnalyzerAlgorithm.cs
  
  ### Parte 2 & 3.
