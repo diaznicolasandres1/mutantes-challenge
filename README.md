@@ -11,12 +11,12 @@ https://api.diaznicolasandres.com/melichallenge/api
 
 
 ## Tabla de contenidos
-Este challenge es parte del proceso de seleccion en la empresa Mercado Libre.
+Este challenge es parte del proceso de selección en la empresa Mercado Libre.
 * [Consignas](#consignas)   
-* [Resolucion](#resolucion)
+* [Resolución](#resolución)
 
-* [DocumentacionApi](#documentacionapi)
-* [Instalacion](#instalacion)
+* [DocumentaciónApi](#documentaciónapi)
+* [Instalación](#instalación)
 
 
 
@@ -24,9 +24,9 @@ Este challenge es parte del proceso de seleccion en la empresa Mercado Libre.
 
 ## Consignas
 ### Parte 1
-Se pide crear un proyecto en el cual contenga un metodo / funcion que en base a un adn recibido por parametro se pueda determinar si es un humano o mutante.
+Se pide crear un proyecto en el cual contenga un método / función que en base a un adn recibido por parámetro se pueda determinar si es un humano o mutante.
 
-- Crear un metodo con la siguiente firma: 
+- Crear un método con la siguiente firma: 
 ```c#
 boolean isMutant(String[] dna);
 ```
@@ -42,7 +42,7 @@ Sabremos si es un humano o mutante, si encontramos mas de una secuencia de cuatr
 
 Crear una API REST, hostear esa API en un cloud computing libre (Google App Engine,Amazon AWS, etc).
 
-Crear el servicio “/mutant/” en donde se pueda detectar si un humano es mutante enviando la secuencia de ADN mediante un HTTP POST con un Json el cual tenga elsiguiente formato:
+Crear el servicio “/mutant/” en donde se pueda detectar si un humano es mutante enviando la secuencia de ADN mediante un HTTP POST con un Json el cual tenga el siguiente formato:
 
 ```javascript
 POST → /mutant/
@@ -67,16 +67,16 @@ Tener en cuenta que la API puede recibir fluctuaciones agresivas de tráfico (En
 millón de peticiones por segundo).
 
 
-## Resolucion
+## Resolución
 
 ### Parte 1
 
 El algoritmo se abordo de la siguiente manera:
 
- Recorrer la matriz de manera iterativa, al pararnos en cada coordenada analizamos su al rededor con un metodo recurisivo.
- Se lo resolvio de esta manera ya que nos permite dividir el problema en sub problemas mas sencillos. En este caso basto que cuando se realiza el primer apilamiento en el stack, hacer un chequeo de sus al rededores(diagonal superior, lado derecho, diagonal inferior, por debajo). A a partir del segundo apilamiento calcula desde que direccion fue llamado y recursivamente chequea sus al rededores en esa direccion.
+ Recorrer la matriz de manera iterativa, al pararnos en cada coordenada analizamos su al rededor con un método recursivo.
+ Se lo resolvió de esta manera ya que nos permite dividir el problema en sub problemas mas sencillos. En este caso basto que cuando se realiza el primer apilamiento en el stack, hacer un chequeo de sus al rededores(diagonal superior, lado derecho, diagonal inferior, por debajo). A a partir del segundo apilamiento calcula desde que dirección fue llamado y recursivamente chequea sus al rededores en esa dirección.
  
- Se lo considera eficiente ya que en el peor de los casos la cantidad de llamadas por coordenada son pocas:  4 posibles direcciones, x 4 repeticiones de palabra. Es un numero infimo para la capacidad de ejecucion de nuestro probgrama
+ Se lo considera eficiente ya que en el peor de los casos la cantidad de llamadas por coordenada son pocas:  4 posibles direcciones, x 4 repeticiones de palabra. Es un numero ínfimo para la capacidad de ejecución de nuestro programa
  En el proyecto este algoritmo esta resuelto en: Mutantes.Core/Utilities/DnaAnalyzerAlgorithm.cs
  
  ### Parte 2 & 3.
@@ -86,17 +86,17 @@ El desarrollo de la API se abordo de la siguiente manera:
 
 La regla clave detrás de la arquitectura limpia es: La regla de dependencia . La esencia de esto es simplemente que las dependencias están encapsuladas en cada "anillo" del modelo de arquitectura y estas dependencias solo pueden apuntar hacia adentro.
 
- Se mantiene la parte web y base de datos en las capas externas, ya que son las mas propopensas al cambio.
+ Se mantiene la parte web y base de datos en las capas externas, ya que son las mas propensas al cambio.
  
- En el proyecyo ***Mutantes.Infraestructure***:  Aquí definimos entidades de datos, acceso a bases de datos. Bajo el patron de diseño Repository. Utilizamos SQLServer y Entitiframework core.
+ En el proyecto ***Mutantes.Infraestructure***:  Aquí definimos entidades de datos, acceso a bases de datos. Bajo el patrón de diseño Repository. Utilizamos SQLServer y Entitiframework core.
  
- *Eric Evans define el patron Repository como un "mecanismo para encapsular el comportamiento de almacenamiento, obtención y búsqueda, de una forma similar a una colección de objetos*
+ *Eric Evans define el patrón Repository como un "mecanismo para encapsular el comportamiento de almacenamiento, obtención y búsqueda, de una forma similar a una colección de objetos*
   
  
- Por otro lado en ***Mutantes.CORE*** se implemtna la lógica de dominio, la menos propopensa a cambiar. Con esta arquitectura nuestra implementacion  no depende de frameworkos ni implementaciones externas. Se utiliza el patron de diseño Service layer pattern, manteniendo los objetos con unicas responsabilidades.
-Ademas se desarrolla contra interfaces, el framework nos provee su propio container para utilizar  inyeccion de dependencias.
+ Por otro lado en ***Mutantes.CORE*** se implemeta la lógica de dominio, la menos propensa a cambiar. Con esta arquitectura nuestra implementación  no depende de frameworkos ni implementaciones externas. Se utiliza el patrón de diseño Service layer pattern, manteniendo los objetos con únicas responsabilidades.
+Además se desarrolla contra interfaces, el framework nos provee su propio container para utilizar  inyección de dependencias.
 
-***Mutantes.Controller***: Aca se encuentran nuestros dos controladores Mutant y Stats, se encargan de expones nuestros metodos a travez del protocoloco HTTP. 
+***Mutantes.Controller***: Aca se encuentran nuestros dos controladores Mutant y Stats, se encargan de expones nuestros métodos a través del protocolo HTTP. 
 Estos controladores utilizan los services expuestos por la capa CORE.
 
 Para tener una mejor performance usamos redis como base de datos cache, no tiene sentido volver a analizar el mismo adn una y otra vez si podemos almacenarlo en la cache y hacer que sea mas performante. Lo mismo ocurre cuando se quieren consultar los stats, si se analizo previamente un adn, se actualizo el valor y evitamos tener que hacer una consulta a la base de datos
@@ -108,13 +108,13 @@ Para tener una mejor performance usamos redis como base de datos cache, no tiene
 
 
 
-## DocumentacionApi
+## DocumentaciónApi
 
 
  
 <img src="https://github.com/diaznicolasandres1/mutantes-challenge/blob/master/Doc/Imagenes/Api.png?raw=true" width="40%">
 
-La documentacion de los endpoits, request y response se encuentra en:
+La documentación de los endpoits, request y response se encuentra en:
 [Mutants-API-Swagger](https://api.diaznicolasandres.com/melichallenge/api)
 
 
@@ -127,7 +127,7 @@ http://api.diaznicolasandres.com/melichallenge/api/stats
 ```
 
 
-## Instalacion
+## Instalación
 Es necesario tener instalado   [NET CORE 3.1 SDK](https://dotnet.microsoft.com/download/dotnet-core/thank-you/sdk-3.1.402-windows-x64-installer)
 
 1. Clonar el repo.
@@ -161,11 +161,9 @@ cd Mutantes.Test\Mutantes.UnitTests
 dotnet test
 ```
 
-6. Ejecutar tests de integracion
+6. Ejecutar tests de integración
 
 ```sh
 cd ..
 cd Mutantes.IntegrationTests
 dotnet test
-
-
