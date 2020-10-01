@@ -17,6 +17,7 @@ Este challenge es parte del proceso de selección en la empresa Mercado Libre.
 
 * [DocumentaciónApi](#documentaciónapi)
 * [Instalación](#instalación)
+* [LinksUtiles](#linksutiles)
 
 
 
@@ -167,3 +168,16 @@ dotnet test
 cd ..
 cd Mutantes.IntegrationTests
 dotnet test
+```
+
+## LinksUtiles
+[Clean architecture](https://www.youtube.com/watch?v=dK4Yb6-LxAk)
+
+[How to effectively use Redis Cache in .NET Core](https://www.youtube.com/watch?v=jwek4w6als4)
+
+[Uncle Bob SOLID principles](https://www.youtube.com/watch?v=zHiWqnTWsn4)
+
+[Implement a microservice domain model with .NET Core](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/net-core-microservice-domain-model)
+
+[TDD and DDD with .NET Core and VSCode](https://www.youtube.com/watch?v=ORe0r4bpfac)
+
